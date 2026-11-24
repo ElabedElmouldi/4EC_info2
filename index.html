@@ -3,47 +3,168 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Accueil – Analyse de données avec pandas – 4ème Éco</title>
+<title>Accueil – Analyse de données avec pandas – 4ème Économie et Gestion</title>
 <meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <a class="saut" href="#contenu">Aller au contenu</a>
-<header class="site"><div class="barre">
-<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
-<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
-<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
-<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
-</div></header>
+
+<header class="site">
+  <div class="barre">
+    <a class="marque" href="index.html">
+      Analyse de données avec pandas
+      <small>4ème Économie et Gestion – 2026/2027</small>
+    </a>
+    <button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav class="menu" id="menu" aria-label="Navigation principale">
+      <a href="index.html" aria-current="page">Accueil</a>
+      <a href="cours.html">Cours</a>
+      <a href="tp.html">TP</a>
+      <a href="exercices.html">Exercices</a>
+      <a href="evaluations.html">Évaluations</a>
+      <a href="simulateur.html">Simulateur</a>
+      <a href="aide-memoire.html">Aide-mémoire</a>
+      <a href="a-propos.html">À propos</a>
+      <button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button>
+    </nav>
+  </div>
+</header>
+
 <div class="conteneur" id="contenu">
+  <main class="large">
 
-<main class="large">
-
-
-
-<div class="accueil-titre"><h1>Analyser des données avec Python</h1>
-<p>Cours, exercices, travaux pratiques et évaluations corrigés sur la bibliothèque <b>pandas</b> et les graphiques <b>matplotlib</b>.</p>
-<p>4ème année Économie et Gestion – année scolaire 2026/2027<br>Cours proposé par Elabed Elmouldi</p>
-<pre><code>import pandas
+    <div class="accueil-titre">
+      <h1>Analyser des données avec Python</h1>
+      <p>
+        Cours complet, exercices progressifs, travaux pratiques économiques et devoirs corrigés sur la bibliothèque <b>pandas</b> et la visualisation <b>matplotlib</b>.
+      </p>
+      <p style="font-size:0.95rem;opacity:0.9;">
+        Programme officiel de 4ème année Économie et Gestion – Année scolaire 2026/2027<br>
+        Cours conçu et rédigé par <b>Elabed Elmouldi</b>
+      </p>
+      <pre><code>import pandas
 df = pandas.read_csv("data/ventes.csv", sep=";")
 print(df.groupby(["Region"])["Quantite"].sum())</code></pre>
-<p><a class="btn" href="chapitre-1.html">Commencer le chapitre 1</a> <a class="btn sec" style="color:#fff;border-color:#fff" href="simulateur.html">Ouvrir le simulateur</a></p></div>
-<h2>Le cours</h2><div class="cartes"><a class="carte" href="chapitre-1.html" data-texte="Chapitre 1 Découvrir l'analyse de données données information connaissance csv xlsx installation import pandas" data-type="cours"><h3>Chapitre 1</h3><p>Découvrir l'analyse de données</p><div class="score" data-score="c1"></div></a><a class="carte" href="chapitre-2.html" data-texte="Chapitre 2 Créer, importer et manipuler un DataFrame dataframe read_csv read_excel shape info columns rename drop" data-type="cours"><h3>Chapitre 2</h3><p>Créer, importer et manipuler un DataFrame</p><div class="score" data-score="c2"></div></a><a class="carte" href="chapitre-3.html" data-texte="Chapitre 3 Afficher les données afficher colonne ligne loc head tail cellule" data-type="cours"><h3>Chapitre 3</h3><p>Afficher les données</p><div class="score" data-score="c3"></div></a><a class="carte" href="chapitre-4.html" data-texte="Chapitre 4 Modifier, ajouter et nettoyer modifier ajouter colonne doublons dropna nettoyage valeurs nulles" data-type="cours"><h3>Chapitre 4</h3><p>Modifier, ajouter et nettoyer</p><div class="score" data-score="c4"></div></a><a class="carte" href="chapitre-5.html" data-texte="Chapitre 5 Calculer, filtrer et trier mean sum min max count groupby filtre condition isin tri sort_values" data-type="cours"><h3>Chapitre 5</h3><p>Calculer, filtrer et trier</p><div class="score" data-score="c5"></div></a><a class="carte" href="chapitre-6.html" data-texte="Chapitre 6 Créer des graphiques graphique matplotlib barres courbe plot bar line plt show" data-type="cours"><h3>Chapitre 6</h3><p>Créer des graphiques</p><div class="score" data-score="c6"></div></a></div>
-<h2>Travaux pratiques</h2><div class="cartes"><a class="carte" href="tp-1.html" data-texte="TP 1 Découvrir un fichier de ventes lecture description rename affichage" data-type="tp"><h3>TP 1</h3><p>Découvrir un fichier de ventes</p></a><a class="carte" href="tp-2.html" data-texte="TP 2 Nettoyer un fichier de ventes nettoyage doublons valeurs nulles montant" data-type="tp"><h3>TP 2</h3><p>Nettoyer un fichier de ventes</p></a><a class="carte" href="tp-3.html" data-texte="TP 3 Analyser les salaires d'une entreprise groupby filtre tri salaires excel" data-type="tp"><h3>TP 3</h3><p>Analyser les salaires d'une entreprise</p></a><a class="carte" href="tp-4.html" data-texte="TP 4 Construire un petit tableau de bord graphique budget barres courbe" data-type="tp"><h3>TP 4</h3><p>Construire un petit tableau de bord</p></a></div>
-<h2>Évaluations corrigées</h2><div class="cartes"><a class="carte" href="eval-1.html" data-texte="Devoir de contrôle n°1 Chapitres 1 à 3 – 1 h – 20 points " data-type="evaluation"><h3>Devoir de contrôle n°1</h3><p>Chapitres 1 à 3 – 1 h – 20 points</p></a><a class="carte" href="eval-2.html" data-texte="Devoir de contrôle n°2 Chapitres 4 et 5 – 1 h 30 – 20 points " data-type="evaluation"><h3>Devoir de contrôle n°2</h3><p>Chapitres 4 et 5 – 1 h 30 – 20 points</p></a><a class="carte" href="eval-3.html" data-texte="Devoir de synthèse Chapitres 1 à 6 – 2 h – 20 points " data-type="evaluation"><h3>Devoir de synthèse</h3><p>Chapitres 1 à 6 – 2 h – 20 points</p></a></div>
-<h2>Fichiers de données</h2>
-<p>Les jeux de données sont fictifs. Télécharger les fichiers dans un dossier <code>data</code> pour exécuter les programmes chez soi.</p><ul><li><a href="data/ventes.csv" download>ventes.csv</a> – 24 ventes d'une boutique (séparateur ;)</li><li><a href="data/ventes_brutes.csv" download>ventes_brutes.csv</a> – ventes avec défauts à nettoyer (séparateur ;)</li><li><a href="data/employes.xlsx" download>employes.xlsx</a> – 15 employés, feuille Employes</li><li><a href="data/notes.csv" download>notes.csv</a> – notes de 20 élèves (séparateur ,)</li><li><a href="data/commandes.csv" download>commandes.csv</a> – 20 commandes (séparateur ;)</li><li><a href="data/budget_mensuel.csv" download>budget_mensuel.csv</a> – recettes et dépenses sur 12 mois (séparateur ;)</li></ul>
-<h2>Comment utiliser ce site</h2>
-<ul><li>Lire le chapitre, exécuter le code dans Python, puis faire les exercices avant d'ouvrir la correction.</li>
-<li>Le bouton <b>Mode professeur</b> affiche les barèmes et les remarques. Il est mémorisé sur l'appareil.</li>
-<li>Le site fonctionne hors ligne : ouvrir <code>index.html</code> dans le navigateur.</li>
-<li>Pour imprimer un sujet sans corrigé, laisser les corrections fermées. En mode professeur, elles s'impriment ouvertes.</li></ul>
-</main>
+      <p style="margin-top:20px;">
+        <a class="btn" href="chapitre-1.html">Commencer le chapitre 1</a>
+        <a class="btn sec" href="simulateur.html">Ouvrir le simulateur</a>
+        <a class="btn sec" href="https://github.com/ElabedElmouldi/4EC_info2/archive/refs/heads/main.zip" style="border-style:dashed;">⬇ Télécharger le cours (.zip)</a>
+      </p>
+    </div>
+
+    <h2>Le cours</h2>
+    <div class="cartes">
+      <a class="carte" href="chapitre-1.html" data-texte="Chapitre 1 Découvrir l'analyse de données données information connaissance csv xlsx installation import pandas" data-type="cours">
+        <h3>Chapitre 1</h3>
+        <p>Découvrir l'analyse de données : donnée, information, formats csv et xlsx, import pandas.</p>
+        <div class="score" data-score="c1"></div>
+      </a>
+      <a class="carte" href="chapitre-2.html" data-texte="Chapitre 2 Créer, importer et manipuler un DataFrame dataframe read_csv read_excel shape info columns rename drop" data-type="cours">
+        <h3>Chapitre 2</h3>
+        <p>Créer, importer et manipuler un DataFrame : lecture, exploration (shape, info, columns, rename).</p>
+        <div class="score" data-score="c2"></div>
+      </a>
+      <a class="carte" href="chapitre-3.html" data-texte="Chapitre 3 Afficher les données afficher colonne ligne loc head tail cellule" data-type="cours">
+        <h3>Chapitre 3</h3>
+        <p>Afficher et sélectionner les données : colonnes, lignes, indexation avec loc, head et tail.</p>
+        <div class="score" data-score="c3"></div>
+      </a>
+      <a class="carte" href="chapitre-4.html" data-texte="Chapitre 4 Modifier, ajouter et nettoyer modifier ajouter colonne doublons dropna nettoyage valeurs nulles" data-type="cours">
+        <h3>Chapitre 4</h3>
+        <p>Modifier, ajouter et nettoyer : colonnes calculées, doublons, suppression des valeurs manquantes.</p>
+        <div class="score" data-score="c4"></div>
+      </a>
+      <a class="carte" href="chapitre-5.html" data-texte="Chapitre 5 Calculer, filtrer et trier mean sum min max count groupby filtre condition isin tri sort_values" data-type="cours">
+        <h3>Chapitre 5</h3>
+        <p>Calculer, filtrer et trier : statistiques (mean, sum), filtres logiques, groupby et tris.</p>
+        <div class="score" data-score="c5"></div>
+      </a>
+      <a class="carte" href="chapitre-6.html" data-texte="Chapitre 6 Créer des graphiques graphique matplotlib barres courbe plot bar line plt show" data-type="cours">
+        <h3>Chapitre 6</h3>
+        <p>Visualiser avec matplotlib : diagrammes en barres, courbes d'évolution et mise en forme.</p>
+        <div class="score" data-score="c6"></div>
+      </a>
+    </div>
+
+    <h2>Travaux pratiques</h2>
+    <div class="cartes">
+      <a class="carte" href="tp-1.html" data-texte="TP 1 Découvrir un fichier de ventes lecture description rename affichage" data-type="tp">
+        <h3>TP 1</h3>
+        <p>Découvrir un fichier de ventes : lecture, exploration initiale et statistiques simples.</p>
+      </a>
+      <a class="carte" href="tp-2.html" data-texte="TP 2 Nettoyer un fichier de ventes nettoyage doublons valeurs nulles montant" data-type="tp">
+        <h3>TP 2</h3>
+        <p>Nettoyer un fichier de ventes : traitement des valeurs nulles, doublons et calcul de montants.</p>
+      </a>
+      <a class="carte" href="tp-3.html" data-texte="TP 3 Analyser les salaires d'une entreprise groupby filtre tri salaires excel" data-type="tp">
+        <h3>TP 3</h3>
+        <p>Analyser les salaires d'une entreprise : filtres avancés, regroupements par département et tri.</p>
+      </a>
+      <a class="carte" href="tp-4.html" data-texte="TP 4 Construire un petit tableau de bord graphique budget barres courbe" data-type="tp">
+        <h3>TP 4</h3>
+        <p>Construire un petit tableau de bord : consolidation de données et graphiques de synthèse.</p>
+      </a>
+    </div>
+
+    <h2>Évaluations corrigées</h2>
+    <div class="cartes">
+      <a class="carte" href="eval-1.html" data-texte="Devoir de contrôle n°1 Chapitres 1 à 3 – 1 h – 20 points" data-type="evaluation">
+        <h3>Devoir de contrôle n°1</h3>
+        <p>Chapitres 1 à 3 – 1 heure – 20 points (barème détaillé inclus).</p>
+      </a>
+      <a class="carte" href="eval-2.html" data-texte="Devoir de contrôle n°2 Chapitres 4 et 5 – 1 h 30 – 20 points" data-type="evaluation">
+        <h3>Devoir de contrôle n°2</h3>
+        <p>Chapitres 4 et 5 – 1 heure 30 – 20 points (nettoyage et analyse avancée).</p>
+      </a>
+      <a class="carte" href="eval-3.html" data-texte="Devoir de synthèse Chapitres 1 à 6 – 2 h – 20 points" data-type="evaluation">
+        <h3>Devoir de synthèse</h3>
+        <p>Chapitres 1 à 6 – 2 heures – 20 points (épreuve complète de fin d'année).</p>
+      </a>
+    </div>
+
+    <h2>Fichiers de données téléchargeables</h2>
+    <p>Ces fichiers fictifs servent aux travaux pratiques et exercices. Téléchargez-les pour exécuter les programmes sur votre ordinateur :</p>
+    <ul>
+      <li><a href="data/ventes.csv" download>ventes.csv</a> – 24 ventes d'une boutique (séparateur <code>;</code>)</li>
+      <li><a href="data/ventes_brutes.csv" download>ventes_brutes.csv</a> – ventes avec défauts à nettoyer (séparateur <code>;</code>)</li>
+      <li><a href="data/employes.xlsx" download>employes.xlsx</a> – 15 employés d'une entreprise (classeur Excel)</li>
+      <li><a href="data/notes.csv" download>notes.csv</a> – notes de 20 élèves de terminale (séparateur <code>,</code>)</li>
+      <li><a href="data/commandes.csv" download>commandes.csv</a> – 20 commandes clients (séparateur <code>;</code>)</li>
+      <li><a href="data/budget_mensuel.csv" download>budget_mensuel.csv</a> – budget recettes/dépenses sur 12 mois (séparateur <code>;</code>)</li>
+    </ul>
+
+    <h2>Comment utiliser ce site</h2>
+    <div class="boite" style="background:#ffffff;border:1.5px solid var(--bd);">
+      <ul style="margin:0;padding-left:1.2em;line-height:1.8;">
+        <li><b>Navigation pas à pas</b> : lisez le cours, testez le code dans votre environnement Python, puis tentez les exercices avant de consulter la correction.</li>
+        <li><b>Mode professeur</b> : activez le bouton <em>Mode professeur</em> en haut à droite pour afficher immédiatement les barèmes officiels et les conseils didactiques.</li>
+        <li><b>Utilisation hors-ligne</b> : téléchargez l'archive complète du site pour l'ouvrir sans connexion Internet en double-cliquant sur <code>index.html</code>.</li>
+        <li><b>Impression</b> : pour imprimer une fiche sans correction pour vos élèves, laissez les détails fermés ; ils s'imprimeront automatiquement ouverts en mode professeur.</li>
+      </ul>
+    </div>
+
+  </main>
 </div>
-<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
-Jeux de données fictifs créés pour l'enseignement.</footer>
+
+<footer class="pied">
+  <div style="max-width:960px;margin:0 auto;line-height:1.8;">
+    <p style="font-weight:700;font-size:1.05rem;margin-bottom:8px;color:#ffffff;">
+      Analyse de données avec Python (pandas & matplotlib)
+    </p>
+    <p style="opacity:0.85;margin-bottom:12px;">
+      Cours proposé par <b>Elabed Elmouldi</b> – Année scolaire 2026/2027<br>
+      Section 4ème Économie et Gestion – République Tunisienne
+    </p>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;font-size:0.9rem;margin-top:14px;">
+      <a href="https://elabedelmouldi.github.io/4EC_info2/" target="_blank" rel="noreferrer" style="color:var(--gold);">🌐 Site en ligne (GitHub Pages)</a>
+      <a href="https://github.com/ElabedElmouldi/4EC_info2" target="_blank" rel="noreferrer" style="color:#ffffff;">📂 Dépôt GitHub</a>
+      <a href="https://github.com/ElabedElmouldi/4EC_info2/archive/refs/heads/main.zip" style="color:var(--gold);">⬇ Télécharger le site (.zip)</a>
+    </div>
+  </div>
+</footer>
+
 <script src="js/app.js"></script>
 <script src="js/quiz.js"></script>
-
 </body>
 </html>
