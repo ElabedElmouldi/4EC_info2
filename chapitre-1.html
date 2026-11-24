@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapitre 1 – Découvrir l'analyse de données avec Python – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Chapitre 1 – Découvrir l'analyse de données avec Python</h1>
+<p class="sous-titre">Durée indicative : 2 séances</p>
+<div class="boite objectifs"><strong>Objectifs</strong><ul><li>Distinguer donnée, information et connaissance.</li><li>Reconnaître les formats csv et xlsx.</li><li>Installer et importer la bibliothèque pandas.</li><li>Lire un fichier et afficher ses premières lignes.</li></ul></div>
+<div class="boite objectifs"><strong>Prérequis</strong><ul><li>Collecte de données par formulaire (2ème et 3ème année).</li><li>Export des résultats au format xlsx et csv.</li><li>Variables, affichage et modules en Python.</li></ul></div>
+<h2>1. De la donnée à la connaissance</h2>
+<div class="boite definition"><strong>Définitions</strong><ul><li><b>Donnée</b> : une valeur brute, sans contexte. Exemple : <code>380</code>.</li><li><b>Information</b> : une donnée placée dans son contexte. Exemple : « une imprimante coûte 380 DT ».</li><li><b>Connaissance</b> : ce qu'on comprend en analysant plusieurs informations. Exemple : « les ventes de mobilier sont élevées, il faut garder du stock ».</li></ul></div>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Niveau</th><th>Exemple dans une boutique</th></tr></thead><tbody><tr><td>Donnée</td><td><code>Sousse</code>, <code>3</code>, <code>380</code></td></tr><tr><td>Information</td><td>À Sousse, on a vendu 3 imprimantes à 380 DT l'unité.</td></tr><tr><td>Connaissance</td><td>Un tableau de synthèse par région aide à décider où livrer en premier.</td></tr></tbody></table></div>
+<h2>2. Les formats de fichiers</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Critère</th><th>csv</th><th>xlsx</th></tr></thead><tbody><tr><td>Nature</td><td>Texte brut</td><td>Classeur Excel</td></tr><tr><td>Séparateur</td><td>Oui : <code>;</code> ou <code>,</code></td><td>Non</td></tr><tr><td>Plusieurs feuilles</td><td>Non</td><td>Oui</td></tr><tr><td>Mise en forme</td><td>Non</td><td>Oui</td></tr><tr><td>Lecture avec pandas</td><td><code>read_csv</code></td><td><code>read_excel</code></td></tr></tbody></table></div>
+<p>Voici les premières lignes du fichier <code>data/ventes.csv</code>, lues comme du simple texte :</p>
+<pre><code>lignes = open("data/ventes.csv", encoding="utf-8").readlines()
+print("".join(lignes[:4]))</code></pre><div class="sortie">Id;Produit;Categorie;Region;Quantite;PrixUnitaire
+1;Imprimante;Informatique;Sousse;3;380
+2;Chaise;Mobilier;Tunis;1;150
+3;Armoire;Mobilier;Sousse;5;560</div>
+<div class="boite attention"><strong>Attention au séparateur</strong><p>Ce fichier utilise le point-virgule. Il faut l'indiquer à pandas avec <code>sep=";"</code>. Sinon, tout le contenu d'une ligne reste dans une seule colonne.</p></div>
+<h2>3. Pourquoi utiliser Python et pandas ?</h2>
+<ul><li>Les <b>mêmes étapes</b> se rejouent sur un nouveau fichier en un clic.</li><li>Le programme garde la <b>trace</b> de tout ce qui a été fait.</li><li>Le travail reste possible quand le fichier devient grand.</li></ul>
+<p>Deux bibliothèques servent dans ce cours : <b>pandas</b> pour organiser et calculer, <b>matplotlib</b> pour dessiner des graphiques.</p>
+<h2>4. Installer et importer pandas</h2>
+<p>Dans une console (invite de commandes), on tape :</p>
+<pre class="sans-sortie"><code>pip install pandas matplotlib openpyxl</code></pre>
+<p><code>openpyxl</code> permet à pandas de lire les fichiers xlsx. Dans le programme, on importe ensuite :</p>
+<pre class="sans-sortie"><code>import pandas
+import matplotlib.pyplot as plt</code></pre>
+<div class="boite attention"><strong>Alias</strong><p>Beaucoup de programmes écrivent <code>import pandas as pd</code> et utilisent <code>pd.</code> à la place de <code>pandas.</code>. Dans ce cours, on écrit <code>pandas.</code> en entier, comme dans les aides pédagogiques. Les deux écritures sont équivalentes.</p></div>
+<h2>5. Mon premier programme</h2>
+<ol><li>Importer pandas.</li><li>Lire le fichier avec <code>read_csv</code>.</li><li>Afficher les 3 premières lignes avec <code>head(3)</code>.</li><li>Afficher le nombre de lignes et de colonnes avec <code>shape</code>.</li></ol>
+<pre><code>import pandas
+
+ventes = pandas.read_csv("data/ventes.csv", sep=";")
+print(ventes.head(3))
+print(ventes.shape)</code></pre><div class="sortie">   Id     Produit     Categorie  Region  Quantite  PrixUnitaire
+0   1  Imprimante  Informatique  Sousse         3           380
+1   2      Chaise      Mobilier   Tunis         1           150
+2   3     Armoire      Mobilier  Sousse         5           560
+(24, 6)</div>
+<div class="boite definition"><strong>DataFrame</strong><p>Un <b>DataFrame</b> est un tableau : des lignes, des colonnes et un <b>index</b> (le numéro de chaque ligne, à partir de 0). Il ressemble à une feuille de calcul.</p></div>
+<div class="boite attention"><strong>Votre écran peut différer légèrement</strong><p>Les résultats de ce site viennent de pandas 3. Avec une version plus ancienne, certaines lignes de <code>info()</code> s'écrivent autrement (<code>object</code> au lieu de <code>str</code>). Les données restent les mêmes.</p></div>
+<h2>6. Plan du cours</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Chapitre</th><th>Contenu</th></tr></thead><tbody><tr><td>1</td><td>Découvrir l'analyse de données</td></tr><tr><td>2</td><td>Créer, importer et manipuler un DataFrame</td></tr><tr><td>3</td><td>Afficher les données</td></tr><tr><td>4</td><td>Modifier, ajouter et nettoyer</td></tr><tr><td>5</td><td>Calculer, filtrer et trier</td></tr><tr><td>6</td><td>Créer des graphiques</td></tr></tbody></table></div>
+<div class="boite retenir"><strong>À retenir</strong><ul><li>Donnée → information → connaissance.</li><li>csv : texte avec séparateur. xlsx : classeur avec feuilles.</li><li><code>import pandas</code>, puis <code>read_csv</code> ou <code>read_excel</code>.</li><li>Un DataFrame est un tableau avec un index qui commence à 0.</li></ul></div>
+<h2 id="exercices">Exercices</h2>
+<div class="exo"><h4><span class="niveau n1">Niveau 1 – application</span>Exercice 1</h4><p>Lire <code>data/notes.csv</code> (séparateur <code>,</code>). Afficher ses dimensions et ses 3 premières lignes.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+print(notes.shape)
+print(notes.head(3))</code></pre><div class="sortie">(20, 6)
+   Eleve Classe  Maths  Gestion  Informatique  Economie
+0   Sami  4Eco1     13       14            15         7
+1    Rim  4Eco1      9        6            16         6
+2  Walid  4Eco2     16       17            17        11</div>
+<p>Le fichier utilise la virgule comme séparateur : on écrit <code>sep=","</code>.</p>
+</div></details>
+<div class="prof"><p>Barème conseillé (3 points) : import 0,5 ; lecture avec le bon séparateur 1 ; shape 0,75 ; head 0,75.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2 – entraînement</span>Exercice 2</h4><p>Classer chaque élément : donnée, information ou connaissance. (a) <code>1450</code> – (b) « Un ordinateur portable coûte 1450 DT. » – (c) « Les produits chers se vendent peu, il faut proposer un paiement échelonné. »</p><details><summary>Voir la correction</summary><div>
+<p>(a) donnée : une valeur seule. (b) information : la valeur a un contexte. (c) connaissance : une conclusion tirée de plusieurs informations.</p>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3 – problème</span>Exercice 3</h4><p>Lire <code>data/ventes.csv</code> <b>sans</b> préciser le séparateur. Afficher les dimensions. Expliquer le problème, puis le corriger.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+mauvais = pandas.read_csv("data/ventes.csv")
+print(mauvais.shape)
+bon = pandas.read_csv("data/ventes.csv", sep=";")
+print(bon.shape)</code></pre><div class="sortie">(24, 1)
+(24, 6)</div>
+<p>Sans séparateur, pandas cherche la virgule. Il ne la trouve pas : tout reste dans <b>une seule colonne</b>. Avec <code>sep=";"</code>, on retrouve les 6 colonnes.</p>
+</div></details>
+</div>
+<h2>Auto-évaluation</h2>
+<div class="qcm" data-id="c1"><div class="q"><p>Quelle valeur est une donnée ?</p><label><input type="radio"> « Il faut renforcer le stock »</label><label data-ok="1"><input type="radio"> 380</label><label><input type="radio"> « 3 imprimantes vendues à Sousse »</label><label><input type="radio"> Un graphique</label><div class="explication">Une valeur seule, sans contexte, est une donnée.</div></div><div class="q"><p>Quelle fonction lit un fichier csv ?</p><label><input type="radio"> read_excel</label><label data-ok="1"><input type="radio"> read_csv</label><label><input type="radio"> open_csv</label><label><input type="radio"> load</label><div class="explication"><code>read_csv</code> lit un csv.</div></div><div class="q"><p>Quel paramètre indique le séparateur d'un csv ?</p><label data-ok="1"><input type="radio"> sep</label><label><input type="radio"> split</label><label><input type="radio"> col</label><label><input type="radio"> delim</label><div class="explication">On écrit <code>sep=";"</code>.</div></div><div class="q"><p>Que contient <code>df.shape</code> ?</p><label><input type="radio"> Les noms des colonnes</label><label data-ok="1"><input type="radio"> Le nombre de lignes et de colonnes</label><label><input type="radio"> La première ligne</label><label><input type="radio"> Le type des données</label><div class="explication"><code>shape</code> renvoie un couple (lignes, colonnes).</div></div><div class="q"><p>À partir de quel numéro l'index d'un DataFrame commence-t-il ?</p><label><input type="radio"> 1</label><label data-ok="1"><input type="radio"> 0</label><label><input type="radio"> -1</label><label><input type="radio"> Cela dépend du fichier</label><div class="explication">L'index commence à 0, comme les listes Python.</div></div><button type="button" class="btn qcm-verifier">Corriger</button> <div class="qcm-resultat" role="status"></div></div><div class="nav-chap"><span></span><a class="btn" href="chapitre-2.html">Suivant : Chapitre 2</a></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

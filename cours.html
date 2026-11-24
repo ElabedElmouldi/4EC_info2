@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalogue du cours – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html" aria-current="page">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur" id="contenu">
+
+<main class="">
+<h1>Catalogue du cours</h1>
+<p class="sous-titre">Chercher un chapitre ou un TP par mot-clé</p>
+<div class="panneau"><label class="champ"><span>Rechercher (exemples : filtre, groupby, graphique, doublons)</span>
+<input type="text" id="recherche" autocomplete="off"></label>
+<label class="champ"><span>Type</span><select id="filtre-type"><option value="">Tout</option><option value="cours">Chapitres</option><option value="tp">Travaux pratiques</option></select></label>
+<p id="recherche-etat" role="status"></p></div><div class="cartes"><a class="carte" href="chapitre-1.html" data-texte="Chapitre 1 Découvrir l'analyse de données données information connaissance csv xlsx installation import pandas" data-type="cours"><h3>Chapitre 1</h3><p>Découvrir l'analyse de données</p><div class="score" data-score="c1"></div></a><a class="carte" href="chapitre-2.html" data-texte="Chapitre 2 Créer, importer et manipuler un DataFrame dataframe read_csv read_excel shape info columns rename drop" data-type="cours"><h3>Chapitre 2</h3><p>Créer, importer et manipuler un DataFrame</p><div class="score" data-score="c2"></div></a><a class="carte" href="chapitre-3.html" data-texte="Chapitre 3 Afficher les données afficher colonne ligne loc head tail cellule" data-type="cours"><h3>Chapitre 3</h3><p>Afficher les données</p><div class="score" data-score="c3"></div></a><a class="carte" href="chapitre-4.html" data-texte="Chapitre 4 Modifier, ajouter et nettoyer modifier ajouter colonne doublons dropna nettoyage valeurs nulles" data-type="cours"><h3>Chapitre 4</h3><p>Modifier, ajouter et nettoyer</p><div class="score" data-score="c4"></div></a><a class="carte" href="chapitre-5.html" data-texte="Chapitre 5 Calculer, filtrer et trier mean sum min max count groupby filtre condition isin tri sort_values" data-type="cours"><h3>Chapitre 5</h3><p>Calculer, filtrer et trier</p><div class="score" data-score="c5"></div></a><a class="carte" href="chapitre-6.html" data-texte="Chapitre 6 Créer des graphiques graphique matplotlib barres courbe plot bar line plt show" data-type="cours"><h3>Chapitre 6</h3><p>Créer des graphiques</p><div class="score" data-score="c6"></div></a><a class="carte" href="tp-1.html" data-texte="TP 1 Découvrir un fichier de ventes lecture description rename affichage" data-type="tp"><h3>TP 1</h3><p>Découvrir un fichier de ventes</p></a><a class="carte" href="tp-2.html" data-texte="TP 2 Nettoyer un fichier de ventes nettoyage doublons valeurs nulles montant" data-type="tp"><h3>TP 2</h3><p>Nettoyer un fichier de ventes</p></a><a class="carte" href="tp-3.html" data-texte="TP 3 Analyser les salaires d'une entreprise groupby filtre tri salaires excel" data-type="tp"><h3>TP 3</h3><p>Analyser les salaires d'une entreprise</p></a><a class="carte" href="tp-4.html" data-texte="TP 4 Construire un petit tableau de bord graphique budget barres courbe" data-type="tp"><h3>TP 4</h3><p>Construire un petit tableau de bord</p></a></div>
+<h2>Parcours en 4 niveaux</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Niveau</th><th>Objectif</th><th>Où travailler</th></tr></thead><tbody><tr><td>1 – Découverte</td><td>Comprendre</td><td>Cours, exemples et QCM de chaque chapitre</td></tr><tr><td>2 – Application</td><td>S'entraîner</td><td>Exercices de niveau 1 et 2, TP 1 et 2</td></tr><tr><td>3 – Approfondissement</td><td>Résoudre des problèmes</td><td>Exercices de niveau 3, TP 3, devoirs de contrôle</td></tr><tr><td>4 – Maîtrise</td><td>Aller plus loin</td><td>TP 4 (niveau 4), devoir de synthèse, simulateur</td></tr></tbody></table></div>
+<h2>Prétest (sans note)</h2><p>Ces questions vérifient les prérequis. Elles ne comptent pas dans la banque d'exercices.</p>
+<div class="qcm" data-id="pretest"><div class="q"><p>Quelle structure Python associe des noms (clés) à des valeurs ?</p><label><input type="radio"> Une liste</label><label data-ok="1"><input type="radio"> Un dictionnaire</label><label><input type="radio"> Un entier</label><label><input type="radio"> Une chaîne</label><div class="explication">Un dictionnaire associe des clés à des valeurs.</div></div><div class="q"><p>Que vaut <code>[10, 20, 30, 40][1:3]</code> ?</p><label><input type="radio"> [10, 20]</label><label data-ok="1"><input type="radio"> [20, 30]</label><label><input type="radio"> [20, 30, 40]</label><label><input type="radio"> [10, 20, 30]</label><div class="explication">Position 1 incluse, position 3 exclue.</div></div><div class="q"><p>Quel opérateur compare deux valeurs ?</p><label><input type="radio"> =</label><label data-ok="1"><input type="radio"> ==</label><label><input type="radio"> =></label><label><input type="radio"> -></label><div class="explication"><code>==</code> compare ; <code>=</code> affecte.</div></div><div class="q"><p>Quel format de fichier contient du texte séparé par des « ; » ?</p><label><input type="radio"> xlsx</label><label data-ok="1"><input type="radio"> csv</label><label><input type="radio"> pdf</label><label><input type="radio"> docx</label><div class="explication">C'est le principe du csv.</div></div><div class="q"><p>Quelle instruction affiche une valeur à l'écran ?</p><label><input type="radio"> show()</label><label data-ok="1"><input type="radio"> print()</label><label><input type="radio"> write()</label><label><input type="radio"> out()</label><div class="explication"><code>print()</code> affiche.</div></div><button type="button" class="btn qcm-verifier">Corriger</button> <div class="qcm-resultat" role="status"></div></div>
+<script src="js/catalogue.js"></script>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

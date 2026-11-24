@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapitre 3 – Afficher les données d'un DataFrame – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Chapitre 3 – Afficher les données d'un DataFrame</h1>
+<p class="sous-titre">Durée indicative : 2 séances</p>
+<div class="boite objectifs"><strong>Objectifs</strong><ul><li>Afficher une colonne, plusieurs colonnes, une ligne, une cellule.</li><li>Afficher les premières et les dernières lignes.</li><li>Afficher une plage de lignes ou des lignes non consécutives.</li></ul></div>
+<div class="boite objectifs"><strong>Prérequis</strong><ul><li>Chapitres 1 et 2.</li><li>Listes et découpage <code>[a:b]</code> en Python.</li></ul></div>
+<p>Dans tout le chapitre, on travaille sur le DataFrame <code>df</code> lu depuis <code>data/ventes.csv</code>.</p>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+print(df.head())</code></pre><div class="sortie">   Id     Produit     Categorie  Region  Quantite  PrixUnitaire
+0   1  Imprimante  Informatique  Sousse         3           380
+1   2      Chaise      Mobilier   Tunis         1           150
+2   3     Armoire      Mobilier  Sousse         5           560
+3   4    Classeur     Papeterie  Sousse        10             6
+4   5      Bureau      Mobilier    Sfax         5           420</div>
+<h2>1. Afficher des colonnes</h2>
+<h3>Une colonne</h3>
+<pre><code>print(df["Region"].head())</code></pre><div class="sortie">0    Sousse
+1     Tunis
+2    Sousse
+3    Sousse
+4      Sfax
+Name: Region, dtype: str</div>
+<h3>Plusieurs colonnes</h3>
+<p>On donne une <b>liste</b> de noms : il y a donc deux paires de crochets.</p>
+<pre><code>print(df[["Produit", "Quantite"]].head())</code></pre><div class="sortie">      Produit  Quantite
+0  Imprimante         3
+1      Chaise         1
+2     Armoire         5
+3    Classeur        10
+4      Bureau         5</div>
+<h3>Une colonne, entre deux positions</h3>
+<pre><code>print(df["Produit"][2:5])</code></pre><div class="sortie">2     Armoire
+3    Classeur
+4      Bureau
+Name: Produit, dtype: str</div>
+<div class="boite attention"><strong>Bornes</strong><p>Ici, <code>[2:5]</code> affiche les positions 2, 3 et 4. La dernière position (5) est <b>exclue</b>.</p></div>
+<h2>2. Afficher des lignes</h2>
+<h3>Une ligne : loc</h3>
+<pre><code>print(df.loc[3])</code></pre><div class="sortie">Id                      4
+Produit          Classeur
+Categorie       Papeterie
+Region             Sousse
+Quantite               10
+PrixUnitaire            6
+Name: 3, dtype: object</div>
+<h3>Les n premières et les n dernières lignes</h3>
+<pre><code>print(df.head(3))
+print(df.tail(3))</code></pre><div class="sortie">   Id     Produit     Categorie  Region  Quantite  PrixUnitaire
+0   1  Imprimante  Informatique  Sousse         3           380
+1   2      Chaise      Mobilier   Tunis         1           150
+2   3     Armoire      Mobilier  Sousse         5           560
+    Id  Produit Categorie  Region  Quantite  PrixUnitaire
+21  22   Chaise  Mobilier    Sfax         3           150
+22  23  Armoire  Mobilier  Sousse         4           560
+23  24   Chaise  Mobilier  Sousse         1           150</div>
+<h3>Une plage de lignes</h3>
+<pre><code>print(df.loc[2:4])</code></pre><div class="sortie">   Id   Produit  Categorie  Region  Quantite  PrixUnitaire
+2   3   Armoire   Mobilier  Sousse         5           560
+3   4  Classeur  Papeterie  Sousse        10             6
+4   5    Bureau   Mobilier    Sfax         5           420</div>
+<div class="boite attention"><strong>loc inclut la borne finale</strong><p>Avec <code>loc</code>, <code>2:4</code> affiche les lignes 2, 3 <b>et 4</b>. C'est différent de <code>[2:5]</code> sur une colonne. Cette différence est une source d'erreurs : la retenir.</p></div>
+<h3>Des lignes non consécutives</h3>
+<p>On donne une liste d'index : deux paires de crochets.</p>
+<pre><code>print(df.loc[[0, 8, 16]])</code></pre><div class="sortie">    Id     Produit     Categorie  Region  Quantite  PrixUnitaire
+0    1  Imprimante  Informatique  Sousse         3           380
+8    9      Bureau      Mobilier   Tunis         3           420
+16  17       Stylo     Papeterie    Sfax         6             1</div>
+<h2>3. Afficher une cellule</h2>
+<pre><code>print(df.loc[3, "Produit"])</code></pre><div class="sortie">Classeur</div>
+<div class="boite retenir"><strong>À retenir</strong><ul><li><code>df["Col"]</code> : une colonne. <code>df[["A", "B"]]</code> : plusieurs colonnes.</li><li><code>df.loc[n]</code> : une ligne. <code>df.loc[a:b]</code> : de a à b <b>inclus</b>.</li><li><code>head(n)</code> et <code>tail(n)</code> : début et fin.</li><li><code>df.loc[ligne, "Col"]</code> : une cellule.</li></ul></div>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Je veux afficher…</th><th>J'écris…</th></tr></thead><tbody><tr><td>une colonne</td><td><code>df["Col"]</code></td></tr><tr><td>plusieurs colonnes</td><td><code>df[["A", "B"]]</code></td></tr><tr><td>une ligne</td><td><code>df.loc[3]</code></td></tr><tr><td>les lignes 2 à 4</td><td><code>df.loc[2:4]</code></td></tr><tr><td>les lignes 0, 8 et 16</td><td><code>df.loc[[0, 8, 16]]</code></td></tr><tr><td>une cellule</td><td><code>df.loc[3, "Produit"]</code></td></tr></tbody></table></div>
+<h2 id="exercices">Exercices</h2>
+<div class="exo"><h4><span class="niveau n1">Niveau 1 – application</span>Exercice 1</h4><p>Afficher la colonne <code>Region</code> (5 premières valeurs) et les 3 dernières lignes de <code>ventes.csv</code>.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+print(df["Region"].head())
+print(df.tail(3))</code></pre><div class="sortie">0    Sousse
+1     Tunis
+2    Sousse
+3    Sousse
+4      Sfax
+Name: Region, dtype: str
+    Id  Produit Categorie  Region  Quantite  PrixUnitaire
+21  22   Chaise  Mobilier    Sfax         3           150
+22  23  Armoire  Mobilier  Sousse         4           560
+23  24   Chaise  Mobilier  Sousse         1           150</div>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2 – entraînement</span>Exercice 2</h4><p>Afficher la ligne d'index 7, puis la cellule de la ligne 7 et de la colonne <code>Produit</code>, puis les lignes d'index 0, 8 et 16.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+print(df.loc[7])
+print(df.loc[7, "Produit"])
+print(df.loc[[0, 8, 16]])</code></pre><div class="sortie">Id                         8
+Produit           Imprimante
+Categorie       Informatique
+Region                 Tunis
+Quantite                   4
+PrixUnitaire             380
+Name: 7, dtype: object
+Imprimante
+    Id     Produit     Categorie  Region  Quantite  PrixUnitaire
+0    1  Imprimante  Informatique  Sousse         3           380
+8    9      Bureau      Mobilier   Tunis         3           420
+16  17       Stylo     Papeterie    Sfax         6             1</div>
+</div></details>
+<div class="prof"><p>Barème (4 points) : ligne 1 ; cellule 1 ; lignes non consécutives 2 (dont 1 point pour la double paire de crochets).</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3 – problème</span>Exercice 3</h4><p>Lire <code>data/employes.xlsx</code> (feuille <code>Employes</code>). Afficher le nom du <b>premier</b> et du <b>dernier</b> employé, sans écrire le numéro de la dernière ligne « à la main ».</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+emp = pandas.read_excel("data/employes.xlsx", "Employes")
+derniere = emp.shape[0] - 1
+print(emp.loc[0, "Nom"])
+print(emp.loc[derniere, "Nom"])</code></pre><div class="sortie">Amal
+Oussama</div>
+<p><code>emp.shape[0]</code> est le nombre de lignes. L'index de la dernière ligne vaut ce nombre moins 1. Le programme reste correct si le fichier change de taille.</p>
+</div></details>
+</div>
+<h2>Auto-évaluation</h2>
+<div class="qcm" data-id="c3"><div class="q"><p>Quelle instruction affiche plusieurs colonnes ?</p><label><input type="radio"> df["A", "B"]</label><label data-ok="1"><input type="radio"> df[["A", "B"]]</label><label><input type="radio"> df("A", "B")</label><label><input type="radio"> df.loc["A", "B"]</label><div class="explication">Il faut une liste de noms, donc deux paires de crochets.</div></div><div class="q"><p><code>df.loc[2:4]</code> affiche :</p><label><input type="radio"> 2 lignes</label><label data-ok="1"><input type="radio"> 3 lignes : 2, 3 et 4</label><label><input type="radio"> 3 lignes : 3, 4 et 5</label><label><input type="radio"> 2 lignes : 3 et 4</label><div class="explication">Avec <code>loc</code>, la borne finale est incluse.</div></div><div class="q"><p>Quelle instruction affiche les 5 dernières lignes ?</p><label><input type="radio"> df.head(5)</label><label data-ok="1"><input type="radio"> df.tail(5)</label><label><input type="radio"> df.last(5)</label><label><input type="radio"> df.loc[5]</label><div class="explication"><code>tail</code> affiche la fin.</div></div><div class="q"><p><code>df.loc[3, "Produit"]</code> affiche :</p><label><input type="radio"> Une ligne</label><label><input type="radio"> Une colonne</label><label data-ok="1"><input type="radio"> Une cellule</label><label><input type="radio"> Un DataFrame</label><div class="explication">Une ligne et une colonne désignent une cellule.</div></div><div class="q"><p>Pour afficher les lignes 0, 8 et 16, on écrit :</p><label><input type="radio"> df.loc[0:16]</label><label data-ok="1"><input type="radio"> df.loc[[0, 8, 16]]</label><label><input type="radio"> df.loc[0, 8, 16]</label><label><input type="radio"> df.head(16)</label><div class="explication">On passe une liste d'index.</div></div><button type="button" class="btn qcm-verifier">Corriger</button> <div class="qcm-resultat" role="status"></div></div><div class="nav-chap"><a class="btn sec" href="chapitre-2.html">Précédent : Chapitre 2</a><a class="btn" href="chapitre-4.html">Suivant : Chapitre 4</a></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

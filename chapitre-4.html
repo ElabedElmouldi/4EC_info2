@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapitre 4 – Modifier, ajouter et nettoyer les données – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Chapitre 4 – Modifier, ajouter et nettoyer les données</h1>
+<p class="sous-titre">Durée indicative : 3 séances</p>
+<div class="boite objectifs"><strong>Objectifs</strong><ul><li>Modifier une cellule, une ligne ; ajouter une ligne et une colonne calculée.</li><li>Supprimer les doublons et les valeurs nulles.</li><li>Choisir la bonne méthode de nettoyage.</li></ul></div>
+<div class="boite objectifs"><strong>Prérequis</strong><ul><li>Chapitres 2 et 3.</li></ul></div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+print(df.shape)</code></pre><div class="sortie">(24, 6)</div>
+<h2>1. Modifier des données</h2>
+<h3>Modifier une cellule</h3>
+<pre><code>print(df.loc[0, "Quantite"])
+df.loc[0, "Quantite"] = 4
+print(df.loc[0, "Quantite"])</code></pre><div class="sortie">3
+4</div>
+<p>Ici, la modification change <b>directement</b> <code>df</code>. Ce n'est pas le cas de <code>drop</code> ou <code>rename</code>.</p>
+<h3>Ajouter une ligne</h3>
+<p>On donne un index <b>nouveau</b> (ici 24) et la liste des valeurs, dans l'ordre des colonnes.</p>
+<pre><code>df.loc[24] = [25, "Agrafeuse", "Papeterie", "Tunis", 7, 8]
+print(df.tail(2))
+print(df.shape)</code></pre><div class="sortie">    Id    Produit  Categorie  Region  Quantite  PrixUnitaire
+23  24     Chaise   Mobilier  Sousse         1           150
+24  25  Agrafeuse  Papeterie   Tunis         7             8
+(25, 6)</div>
+<div class="boite attention"><strong>Index existant</strong><p>Si l'index existe déjà, la ligne est <b>remplacée</b>. Vérifier l'index avant d'écrire.</p></div>
+<h3>Ajouter une colonne calculée</h3>
+<pre><code>df["Montant"] = df["Quantite"] * df["PrixUnitaire"]
+print(df[["Produit", "Quantite", "PrixUnitaire", "Montant"]].head())</code></pre><div class="sortie">      Produit  Quantite  PrixUnitaire  Montant
+0  Imprimante         4           380     1520
+1      Chaise         1           150      150
+2     Armoire         5           560     2800
+3    Classeur        10             6       60
+4      Bureau         5           420     2100</div>
+<p>Le calcul se fait sur toute la colonne d'un seul coup, ligne par ligne.</p>
+<h2>2. Nettoyer les données</h2>
+<p>Le fichier <code>ventes_brutes.csv</code> contient des erreurs volontaires : lignes en double, valeurs vides et une colonne entièrement vide.</p>
+<pre><code>brut = pandas.read_csv("data/ventes_brutes.csv", sep=";")
+print(brut.shape)
+brut.info()</code></pre><div class="sortie">(26, 7)
+&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 26 entries, 0 to 25
+Data columns (total 7 columns):
+ #   Column        Non-Null Count  Dtype  
+---  ------        --------------  -----  
+ 0   Id            26 non-null     int64  
+ 1   Produit       26 non-null     str    
+ 2   Categorie     26 non-null     str    
+ 3   Region        25 non-null     str    
+ 4   Quantite      25 non-null     float64
+ 5   PrixUnitaire  25 non-null     float64
+ 6   Commentaire   0 non-null      float64
+dtypes: float64(3), int64(1), str(3)
+memory usage: 1.6 KB</div>
+<p>La colonne <code>Commentaire</code> n'a aucune valeur. Les colonnes <code>Region</code>, <code>Quantite</code> et <code>PrixUnitaire</code> ont chacune des cases vides.</p>
+<h3>Étape 1 : supprimer la colonne inutile</h3>
+<pre><code>brut = brut.drop(columns=["Commentaire"])
+print(brut.shape)</code></pre><div class="sortie">(26, 6)</div>
+<h3>Étape 2 : supprimer les doublons</h3>
+<pre><code>brut = brut.drop_duplicates()
+print(brut.shape)</code></pre><div class="sortie">(24, 6)</div>
+<h3>Étape 3 : supprimer les lignes contenant des valeurs nulles</h3>
+<pre><code>brut = brut.dropna()
+print(brut.shape)</code></pre><div class="sortie">(21, 6)</div>
+<div class="boite attention"><strong>dropna(axis=1) : attention</strong><p><code>dropna()</code> supprime les <b>lignes</b> qui ont au moins une case vide. <code>dropna(axis=1)</code> supprime les <b>colonnes</b> qui ont au moins une case vide. Voyons ce que cela donne sur le fichier d'origine :</p></div>
+<pre><code>brut2 = pandas.read_csv("data/ventes_brutes.csv", sep=";")
+print(brut2.dropna(axis=1).columns)</code></pre><div class="sortie">Index(['Id', 'Produit', 'Categorie'], dtype='str')</div>
+<p>On perd trois colonnes utiles ! Pour une colonne entièrement vide, il vaut mieux la supprimer avec <code>drop(columns=[...])</code>.</p>
+<div class="boite retenir"><strong>À retenir</strong><ul><li><code>df.loc[n, "Col"] = valeur</code> modifie une cellule. <code>df.loc[n] = [liste]</code> ajoute ou remplace une ligne.</li><li><code>df["Nouvelle"] = formule</code> ajoute une colonne calculée.</li><li>Ordre conseillé du nettoyage : colonnes inutiles, doublons, valeurs nulles.</li><li><code>drop_duplicates()</code> et <code>dropna()</code> renvoient un nouveau DataFrame : on réaffecte.</li></ul></div>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Action</th><th>Syntaxe</th></tr></thead><tbody><tr><td>Modifier une cellule</td><td><code>df.loc[n, "Col"] = valeur</code></td></tr><tr><td>Ajouter/modifier une ligne</td><td><code>df.loc[n] = [v1, v2, …]</code></td></tr><tr><td>Ajouter une colonne</td><td><code>df["Col"] = formule</code></td></tr><tr><td>Supprimer les doublons</td><td><code>df.drop_duplicates()</code></td></tr><tr><td>Supprimer les lignes avec valeur nulle</td><td><code>df.dropna()</code></td></tr><tr><td>Supprimer les colonnes avec valeur nulle</td><td><code>df.dropna(axis=1)</code></td></tr></tbody></table></div>
+<h2 id="exercices">Exercices</h2>
+<div class="exo"><h4><span class="niveau n1">Niveau 1 – application</span>Exercice 1</h4><p>Lire <code>ventes.csv</code>. Ajouter la colonne <code>Montant</code> (quantité × prix unitaire). Afficher les 5 premières lignes.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+df["Montant"] = df["Quantite"] * df["PrixUnitaire"]
+print(df.head())</code></pre><div class="sortie">   Id     Produit     Categorie  Region  Quantite  PrixUnitaire  Montant
+0   1  Imprimante  Informatique  Sousse         3           380     1140
+1   2      Chaise      Mobilier   Tunis         1           150      150
+2   3     Armoire      Mobilier  Sousse         5           560     2800
+3   4    Classeur     Papeterie  Sousse        10             6       60
+4   5      Bureau      Mobilier    Sfax         5           420     2100</div>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2 – entraînement</span>Exercice 2</h4><p>Nettoyer <code>ventes_brutes.csv</code> : supprimer la colonne <code>Commentaire</code>, les doublons, puis les lignes à valeurs nulles. Afficher les dimensions après <b>chaque</b> étape.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+brut = pandas.read_csv("data/ventes_brutes.csv", sep=";")
+print("Départ :", brut.shape)
+brut = brut.drop(columns=["Commentaire"])
+print("Sans la colonne Commentaire :", brut.shape)
+brut = brut.drop_duplicates()
+print("Sans doublons :", brut.shape)
+brut = brut.dropna()
+print("Sans valeurs nulles :", brut.shape)</code></pre><div class="sortie">Départ : (26, 7)
+Sans la colonne Commentaire : (26, 6)
+Sans doublons : (24, 6)
+Sans valeurs nulles : (21, 6)</div>
+<p>On perd 2 lignes (doublons), puis 3 lignes (valeurs nulles). Le fichier propre garde 21 lignes.</p>
+</div></details>
+<div class="prof"><p>Barème (5 points) : colonne 1 ; doublons 1 ; nulles 1 ; réaffectation correcte 1 ; affichage des dimensions 1.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3 – problème</span>Exercice 3</h4><p>Lire <code>ventes.csv</code>. Ajouter <code>Montant</code>, puis <code>MontantTTC</code> avec une TVA de 19 % (taux utilisé pour l'exercice). Ajouter une nouvelle ligne (Id 25, « Agrafeuse », « Papeterie », « Tunis », 7, 8). Corriger la quantité de la ligne 0 : 5. Afficher les 2 dernières lignes et la ligne 0.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+df["Montant"] = df["Quantite"] * df["PrixUnitaire"]
+df["MontantTTC"] = df["Montant"] * 1.19
+df.loc[24] = [25, "Agrafeuse", "Papeterie", "Tunis", 7, 8, 56, 66.64]
+df.loc[0, "Quantite"] = 5
+print(df.tail(2))
+print(df.loc[0])</code></pre><div class="sortie">    Id    Produit  Categorie  Region  Quantite  PrixUnitaire  Montant  MontantTTC
+23  24     Chaise   Mobilier  Sousse         1           150      150      178.50
+24  25  Agrafeuse  Papeterie   Tunis         7             8       56       66.64
+Id                         1
+Produit           Imprimante
+Categorie       Informatique
+Region                Sousse
+Quantite                   5
+PrixUnitaire             380
+Montant                 1140
+MontantTTC            1356.6
+Name: 0, dtype: object</div>
+<p>Après l'ajout de deux colonnes, la nouvelle ligne doit avoir <b>8 valeurs</b>, dans l'ordre des colonnes. Modifier <code>Quantite</code> ne met pas à jour <code>Montant</code> : cette colonne a été calculée avant.</p>
+</div></details>
+</div>
+<h2>Auto-évaluation</h2>
+<div class="qcm" data-id="c4"><div class="q"><p>Comment ajouter une colonne Montant ?</p><label data-ok="1"><input type="radio"> df["Montant"] = df["Quantite"] * df["PrixUnitaire"]</label><label><input type="radio"> df.add("Montant")</label><label><input type="radio"> df.Montant()</label><label><input type="radio"> df.loc["Montant"]</label><div class="explication">Une affectation sur un nom de colonne crée la colonne.</div></div><div class="q"><p>Quelle instruction supprime les lignes en double ?</p><label><input type="radio"> df.dropna()</label><label data-ok="1"><input type="radio"> df.drop_duplicates()</label><label><input type="radio"> df.drop(columns=[])</label><label><input type="radio"> df.clean()</label><div class="explication"><code>drop_duplicates()</code> supprime les doublons.</div></div><div class="q"><p><code>df.dropna()</code> supprime :</p><label><input type="radio"> Les colonnes vides</label><label data-ok="1"><input type="radio"> Les lignes ayant au moins une valeur nulle</label><label><input type="radio"> Les doublons</label><label><input type="radio"> Toutes les lignes</label><div class="explication">Par défaut, ce sont les lignes.</div></div><div class="q"><p><code>df.loc[3, "Quantite"] = 9</code> :</p><label><input type="radio"> Renvoie un nouveau DataFrame</label><label data-ok="1"><input type="radio"> Modifie df directement</label><label><input type="radio"> Supprime la ligne 3</label><label><input type="radio"> Affiche la cellule</label><div class="explication">C'est une affectation : <code>df</code> est modifié.</div></div><div class="q"><p>Pourquoi éviter <code>dropna(axis=1)</code> sur toute une table ?</p><label><input type="radio"> Il est interdit</label><label data-ok="1"><input type="radio"> Il supprime toute colonne ayant une seule valeur nulle</label><label><input type="radio"> Il supprime les doublons</label><label><input type="radio"> Il trie les données</label><div class="explication">Une seule case vide suffit pour perdre la colonne.</div></div><button type="button" class="btn qcm-verifier">Corriger</button> <div class="qcm-resultat" role="status"></div></div><div class="nav-chap"><a class="btn sec" href="chapitre-3.html">Précédent : Chapitre 3</a><a class="btn" href="chapitre-5.html">Suivant : Chapitre 5</a></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

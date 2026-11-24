@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devoir de contrôle n°1 – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Devoir de contrôle n°1</h1>
+<p class="sous-titre">Chapitres 1 à 3 – durée : 1 h – 20 points – 4ème Économie et Gestion</p>
+<div class="chrono" data-minutes="60"><strong>Chronomètre</strong><output>--:--</output><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn sec c-pause">Pause</button><button type="button" class="btn sec c-reset">Réinitialiser</button></div>
+<div class="boite objectifs"><strong>Consignes</strong><ul><li>Le fichier <code>commandes.csv</code> (séparateur <code>;</code>) contient les colonnes <code>Id</code>, <code>Client</code>, <code>Ville</code>, <code>Montant</code>, <code>Statut</code>.</li><li>Chaque réponse de programmation est écrite en Python avec pandas. Les noms de colonnes doivent être exacts.</li></ul></div>
+<h2>Exercice 1 – Questions de cours (4 points)</h2>
+<div class="prof"><p>Un point par question. Accepter toute formulation équivalente.</p></div>
+<div class="exo"><h4><span class="niveau n1">Niveau 1</span>Question 1.a (1 pt)</h4><p>Donner un exemple de donnée et un exemple d'information liés à une commande.</p><details><summary>Voir le corrigé</summary><div>
+<p>Donnée : <code>250</code>. Information : « La commande n°3 de Basma à Sfax vaut 250 DT. »</p>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n1">Niveau 1</span>Question 1.b (1 pt)</h4><p>Quelle fonction lit un fichier xlsx ? Quelle fonction lit un fichier csv ?</p><details><summary>Voir le corrigé</summary><div>
+<p><code>read_excel</code> et <code>read_csv</code>.</p>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n1">Niveau 1</span>Question 1.c (1 pt)</h4><p>Que contient <code>df.shape</code> ?</p><details><summary>Voir le corrigé</summary><div>
+<p>Le nombre de lignes et le nombre de colonnes, sous forme d'un couple.</p>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n1">Niveau 1</span>Question 1.d (1 pt)</h4><p>Quel est l'index de la première ligne d'un DataFrame ?</p><details><summary>Voir le corrigé</summary><div>
+<p>0.</p>
+</div></details>
+</div>
+<h2>Exercice 2 – Lire et afficher (6 points)</h2>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 2.1 (1.5 pts)</h4><p>Lire <code>commandes.csv</code> dans <code>cmd</code> et afficher ses dimensions.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+cmd = pandas.read_csv("data/commandes.csv", sep=";")
+print(cmd.shape)</code></pre><div class="sortie">(20, 5)</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : import 0,5 ; lecture avec sep 0,5 ; shape 0,5.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 2.2 (1.5 pts)</h4><p>Afficher les colonnes <code>Client</code> et <code>Montant</code> (5 premières lignes).</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+cmd = pandas.read_csv("data/commandes.csv", sep=";")
+print(cmd[["Client", "Montant"]].head())</code></pre><div class="sortie">      Client  Montant
+0      Donia      200
+1  Ezzeddine      240
+2      Donia      580
+3       Anis      430
+4     Chokri      370</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : double crochet 1 ; head 0,5.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 2.3 (1.5 pts)</h4><p>Afficher la ligne d'index 4, puis la cellule de cette ligne dans la colonne <code>Ville</code>.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+cmd = pandas.read_csv("data/commandes.csv", sep=";")
+print(cmd.loc[4])
+print(cmd.loc[4, "Ville"])</code></pre><div class="sortie">Id               5
+Client      Chokri
+Ville         Sfax
+Montant        370
+Statut     Annulée
+Name: 4, dtype: object
+Sfax</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : ligne 0,75 ; cellule 0,75.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 2.4 (1.5 pts)</h4><p>Afficher les lignes d'index 5 à 8 <b>incluses</b>.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+cmd = pandas.read_csv("data/commandes.csv", sep=";")
+print(cmd.loc[5:8])</code></pre><div class="sortie">   Id Client    Ville  Montant    Statut
+5   6  Donia  Bizerte      400   Annulée
+6   7  Basma   Sousse      700   Annulée
+7   8  Donia    Tunis      710  En cours
+8   9   Anis     Sfax      330    Livrée</div>
+<p>Avec <code>loc</code>, la borne finale est incluse : 4 lignes s'affichent.</p>
+</div></details>
+<div class="prof"><p>Barème détaillé : loc 1 ; bornes 0,5.</p></div>
+</div>
+<h2>Exercice 3 – Transformer le DataFrame (6 points)</h2>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 3.1 (2 pts)</h4><p>Renommer <code>Montant</code> en <code>MontantDT</code> et afficher les noms des colonnes.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+cmd = pandas.read_csv("data/commandes.csv", sep=";")
+cmd = cmd.rename(columns={"Montant": "MontantDT"})
+print(cmd.columns)</code></pre><div class="sortie">Index(['Id', 'Client', 'Ville', 'MontantDT', 'Statut'], dtype='str')</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : rename 1 ; réaffectation 0,5 ; affichage 0,5.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 3.2 (2 pts)</h4><p>Supprimer la colonne <code>Id</code>, puis les lignes d'index 0 à 4 (consécutives). Afficher les dimensions.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+cmd = pandas.read_csv("data/commandes.csv", sep=";")
+cmd = cmd.drop(columns=["Id"])
+cmd = cmd.drop(cmd.index[0:5])
+print(cmd.shape)</code></pre><div class="sortie">(15, 4)</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : colonne 1 ; lignes consécutives 1.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3</span>Question 3.3 (2 pts)</h4><p>Un élève écrit <code>cmd.rename(columns={"Ville": "Lieu"})</code> puis affiche <code>cmd.columns</code> : la colonne s'appelle toujours <code>Ville</code>. Expliquer pourquoi et corriger.</p><details><summary>Voir le corrigé</summary><div>
+<p><code>rename</code> renvoie un <b>nouveau</b> DataFrame et laisse <code>cmd</code> inchangé. Correction : <code>cmd = cmd.rename(columns={"Ville": "Lieu"})</code>.</p>
+</div></details>
+<div class="prof"><p>Barème détaillé : explication 1 ; correction 1.</p></div>
+</div>
+<h2>Exercice 4 – Problème (4 points)</h2>
+<div class="exo"><h4><span class="niveau n3">Niveau 3</span>Question 4 (4 pts)</h4><p>Sans écrire le numéro de la dernière ligne, afficher le nom du client de la <b>dernière</b> commande, puis les 2 dernières lignes du fichier.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+cmd = pandas.read_csv("data/commandes.csv", sep=";")
+derniere = cmd.shape[0] - 1
+print(cmd.loc[derniere, "Client"])
+print(cmd.tail(2))</code></pre><div class="sortie">Basma
+    Id  Client   Ville  Montant    Statut
+18  19  Chokri   Tunis      410  En cours
+19  20   Basma  Sousse      360    Livrée</div>
+<p>Le programme reste juste si le nombre de commandes change.</p>
+</div></details>
+<div class="prof"><p>Barème détaillé : calcul de l'index 1,5 ; cellule 1 ; tail 1 ; programme complet 0,5.</p></div>
+</div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>À propos, sources et vérifications – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html" aria-current="page">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>À propos, sources et vérifications</h1>
+<p class="sous-titre">Qui, quoi, comment ce site a été contrôlé</p>
+<h2>Auteur et référentiel</h2><p>Cours proposé par Elabed Elmouldi, année scolaire 2026/2027, 4ème année Économie et Gestion.</p><p>Le plan suit l'annexe « Aides pédagogiques d'informatique – Section Économie et Gestion », Ministère de l'Éducation de Tunisie, septembre 2024 (domaines « Analyse de données » et « Gestion de données », 4ème année). Les syntaxes pandas enseignées sont celles du tableau de cette annexe.</p>
+<h2>Sources externes</h2><ul><li>Documentation officielle de pandas : <a href="https://pandas.pydata.org/docs/">pandas.pydata.org/docs</a></li><li>Documentation officielle de matplotlib : <a href="https://matplotlib.org/stable/">matplotlib.org/stable</a></li></ul><p>Ces deux liens sont donnés pour aller plus loin. Les pages en ligne n'ont pas été consultées pendant la création : le contenu vient de l'annexe fournie et de l'exécution du code.</p>
+<h2>Ce qui a été vérifié</h2><ul><li>Chaque programme du cours, des exercices, des TP et des évaluations a été <b>exécuté</b> avec Python, pandas 3.0.6 et matplotlib 3.11.2. Les résultats affichés sont les résultats réels.</li><li>Le moteur du simulateur a été comparé à pandas par des tests automatiques (dossier <code>tests</code>).</li><li>Les liens internes, les fichiers et les pages vides sont contrôlés par un script (<code>tests/test_site.py</code>).</li></ul><h2>Limites</h2><ul><li>Les données sont fictives.</li><li>Le simulateur imite pandas : il ne remplace pas l'exécution de Python.</li><li>Le site n'a pas été testé sur tous les navigateurs ni avec un outil Lighthouse. L'affichage sur téléphone a été conçu (mise en page adaptative) mais pas mesuré sur un appareil réel.</li><li>L'affichage de <code>info()</code> peut différer selon la version de pandas.</li></ul>
+<h2>Licence</h2><p>Contenu pédagogique : Creative Commons BY-NC-SA 4.0. Code du site : licence MIT. Voir le fichier <code>LICENSE</code>.</p>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

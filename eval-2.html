@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devoir de contrôle n°2 – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Devoir de contrôle n°2</h1>
+<p class="sous-titre">Chapitres 4 et 5 – durée : 1 h 30 – 20 points – 4ème Économie et Gestion</p>
+<div class="chrono" data-minutes="90"><strong>Chronomètre</strong><output>--:--</output><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn sec c-pause">Pause</button><button type="button" class="btn sec c-reset">Réinitialiser</button></div>
+<div class="boite objectifs"><strong>Consignes</strong><ul><li>Le fichier <code>notes.csv</code> (séparateur <code>,</code>) contient : <code>Eleve</code>, <code>Classe</code>, <code>Maths</code>, <code>Gestion</code>, <code>Informatique</code>, <code>Economie</code> (notes sur 20).</li></ul></div>
+<h2>Exercice 1 – Statistiques (3 points)</h2>
+<div class="exo"><h4><span class="niveau n1">Niveau 1</span>Question 1 (3 pts)</h4><p>Afficher la moyenne de la colonne <code>Maths</code>, la plus petite et la plus grande note de <code>Gestion</code>.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+print(notes["Maths"].mean())
+print(notes["Gestion"].min())
+print(notes["Gestion"].max())</code></pre><div class="sortie">12.25
+5
+18</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : un point par instruction correcte.</p></div>
+</div>
+<h2>Exercice 2 – Colonne calculée (5 points)</h2>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 2.1 (2.5 pts)</h4><p>Ajouter la colonne <code>Moyenne</code> : moyenne simple des quatre matières.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+notes["Moyenne"] = (notes["Maths"] + notes["Gestion"] + notes["Informatique"] + notes["Economie"]) / 4
+print(notes.head(3))</code></pre><div class="sortie">   Eleve Classe  Maths  Gestion  Informatique  Economie  Moyenne
+0   Sami  4Eco1     13       14            15         7    12.25
+1    Rim  4Eco1      9        6            16         6     9.25
+2  Walid  4Eco2     16       17            17        11    15.25</div>
+<p>Les parenthèses sont obligatoires : sans elles, seule la dernière note serait divisée par 4.</p>
+</div></details>
+<div class="prof"><p>Barème détaillé : somme 1 ; parenthèses 1 ; division 0,5.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 2.2 (2.5 pts)</h4><p>L'élève d'index 0 a eu une erreur de saisie en Maths : la note correcte est 15. Corriger la note, puis recalculer <code>Moyenne</code> et afficher la ligne 0.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+notes["Moyenne"] = (notes["Maths"] + notes["Gestion"] + notes["Informatique"] + notes["Economie"]) / 4
+notes.loc[0, "Maths"] = 15
+notes["Moyenne"] = (notes["Maths"] + notes["Gestion"] + notes["Informatique"] + notes["Economie"]) / 4
+print(notes.loc[0])</code></pre><div class="sortie">Eleve            Sami
+Classe          4Eco1
+Maths              15
+Gestion            14
+Informatique       15
+Economie            7
+Moyenne         12.75
+Name: 0, dtype: object</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : modification 1 ; recalcul 1 ; affichage 0,5.</p></div>
+</div>
+<h2>Exercice 3 – Filtres et regroupement (6 points)</h2>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 3.1 (2 pts)</h4><p>Afficher les élèves de la classe <code>4Eco1</code>.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+print(notes[notes["Classe"] == "4Eco1"])</code></pre><div class="sortie">        Eleve Classe  Maths  Gestion  Informatique  Economie
+0        Sami  4Eco1     13       14            15         7
+1         Rim  4Eco1      9        6            16         6
+3       Salma  4Eco1      6       10            17        15
+5      Zeineb  4Eco1     13       14             9        15
+7   Boutheina  4Eco1     18       17            16        10
+9       Dorra  4Eco1     12        5             8        12
+10      Elyes  4Eco1      6       18            12        16
+14       Iheb  4Eco1      8       14            15         9
+16      Karim  4Eco1     16       16             8        14
+18     Marwen  4Eco1     16       13            20         6</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : == 1 ; syntaxe du filtre 1.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 3.2 (2 pts)</h4><p>Afficher les élèves ayant au moins 15 en Informatique <b>et</b> au moins 12 en Maths.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+print(notes[(notes["Informatique"] &gt;= 15) &amp; (notes["Maths"] &gt;= 12)])</code></pre><div class="sortie">        Eleve Classe  Maths  Gestion  Informatique  Economie
+0        Sami  4Eco1     13       14            15         7
+2       Walid  4Eco2     16       17            17        11
+7   Boutheina  4Eco1     18       17            16        10
+18     Marwen  4Eco1     16       13            20         6
+19    Nesrine  4Eco2     19       17            17         9</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : deux conditions 1 ; parenthèses et & 1.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3</span>Question 3.3 (2 pts)</h4><p>Calculer la note moyenne en Informatique pour chaque classe.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+print(notes.groupby(["Classe"])["Informatique"].mean())</code></pre><div class="sortie">Classe
+4Eco1    13.6
+4Eco2    13.2
+Name: Informatique, dtype: float64</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : groupby 1 ; colonne et fonction 1.</p></div>
+</div>
+<h2>Exercice 4 – Problème (6 points)</h2>
+<div class="exo"><h4><span class="niveau n2">Niveau 2</span>Question 4.1 (2 pts)</h4><p>Classer les élèves par moyenne décroissante. Afficher le nom et la moyenne des 3 meilleurs.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+notes["Moyenne"] = (notes["Maths"] + notes["Gestion"] + notes["Informatique"] + notes["Economie"]) / 4
+classement = notes.sort_values(by=["Moyenne"], ascending=[False])
+print(classement[["Eleve", "Moyenne"]].head(3))</code></pre><div class="sortie">        Eleve  Moyenne
+19    Nesrine    15.50
+2       Walid    15.25
+7   Boutheina    15.25</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : tri 1 ; sélection des colonnes et head 1.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3</span>Question 4.2 (2 pts)</h4><p>Combien d'élèves ont une moyenne supérieure ou égale à 10 ?</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+notes["Moyenne"] = (notes["Maths"] + notes["Gestion"] + notes["Informatique"] + notes["Economie"]) / 4
+admis = notes[notes["Moyenne"] &gt;= 10]
+print(admis.shape[0])</code></pre><div class="sortie">17</div>
+</div></details>
+<div class="prof"><p>Barème détaillé : filtre 1 ; comptage avec shape[0] 1.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3</span>Question 4.3 (2 pts)</h4><p>Quelle classe a la meilleure moyenne générale ? Justifier par un calcul.</p><details><summary>Voir le corrigé</summary><div>
+<pre><code>import pandas
+
+notes = pandas.read_csv("data/notes.csv", sep=",")
+notes["Moyenne"] = (notes["Maths"] + notes["Gestion"] + notes["Informatique"] + notes["Economie"]) / 4
+print(notes.groupby(["Classe"])["Moyenne"].mean())</code></pre><div class="sortie">Classe
+4Eco1    12.250
+4Eco2    12.725
+Name: Moyenne, dtype: float64</div>
+<p>La meilleure classe est celle dont la valeur affichée est la plus grande.</p>
+</div></details>
+<div class="prof"><p>Barème détaillé : groupby 1 ; conclusion lue dans le résultat 1.</p></div>
+</div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

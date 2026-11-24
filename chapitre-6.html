@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapitre 6 – Créer des graphiques avec matplotlib – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Chapitre 6 – Créer des graphiques avec matplotlib</h1>
+<p class="sous-titre">Durée indicative : 2 séances</p>
+<div class="boite objectifs"><strong>Objectifs</strong><ul><li>Créer un graphique à barres et un graphique en courbe.</li><li>Choisir le graphique adapté aux données.</li><li>Ajouter un titre et une couleur, puis afficher le graphique.</li></ul></div>
+<div class="boite objectifs"><strong>Prérequis</strong><ul><li>Chapitres 2 à 5.</li></ul></div>
+<h2>1. Quel graphique choisir ?</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Besoin</th><th>Graphique</th><th>Instruction</th></tr></thead><tbody><tr><td>Comparer des catégories (produits, régions)</td><td>Barres</td><td><code>plot.bar</code></td></tr><tr><td>Suivre une évolution dans le temps (mois, années)</td><td>Courbe</td><td><code>plot.line</code></td></tr></tbody></table></div>
+<h2>2. Importer matplotlib</h2>
+<pre class="sans-sortie"><code>import pandas
+import matplotlib.pyplot as plt</code></pre>
+<p><code>plt</code> est l'alias de <code>matplotlib.pyplot</code>. On l'utilise pour afficher le graphique avec <code>plt.show()</code>.</p>
+<h2>3. Graphique à barres</h2>
+<ol><li>Lire les données et en garder une partie lisible (8 lignes).</li><li>Créer le graphique avec <code>plot.bar</code> : colonne des abscisses <code>x</code>, colonne des ordonnées <code>y</code>, <code>title</code>, <code>color</code>.</li><li>Afficher avec <code>plt.show()</code>.</li></ol>
+<pre><code>import pandas
+import matplotlib.pyplot as plt
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+extrait = df.head(8)
+extrait.plot.bar(x="Produit", y="Quantite", title="Quantités vendues (8 premières ventes)", color="teal")
+plt.show()</code></pre><figure><img src="assets/img/ch6_barres.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+<h2>4. Graphique en courbe</h2>
+<pre><code>budget = pandas.read_csv("data/budget_mensuel.csv", sep=";")
+budget.plot.line(x="Mois", y="Recettes", title="Recettes mensuelles (DT)", color="darkblue")
+plt.show()</code></pre><figure><img src="assets/img/ch6_courbe.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+<div class="boite attention"><strong>Erreurs fréquentes</strong><ul><li>Oublier <code>plt.show()</code> : le graphique ne s'affiche pas.</li><li>Écrire un nom de colonne avec une faute : <code>KeyError</code>.</li><li>Tracer des milliers de barres : le graphique devient illisible. Filtrer d'abord.</li></ul></div>
+<h2>5. Pour aller plus loin</h2>
+<p>Pour représenter le résultat d'un <code>groupby</code>, on le transforme d'abord en DataFrame avec <code>reset_index()</code>. Cette instruction et les options ci-dessous complètent le programme ; elles ne sont pas exigées.</p>
+<pre><code>total = df.groupby(["Region"])["Quantite"].sum().reset_index()
+print(total)
+total.plot.bar(x="Region", y="Quantite", title="Quantités vendues par région", color="orange", rot=0)
+plt.ylabel("Quantité")
+plt.show()</code></pre><figure><img src="assets/img/ch6_groupby.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+<div class="boite retenir"><strong>À retenir</strong><ul><li>Barres pour comparer, courbe pour suivre une évolution.</li><li><code>df.plot.bar(x=..., y=..., title=..., color=...)</code> et <code>df.plot.line(...)</code>.</li><li>Toujours terminer par <code>plt.show()</code>.</li></ul></div>
+<h2 id="exercices">Exercices</h2>
+<div class="exo"><h4><span class="niveau n1">Niveau 1 – application</span>Exercice 1</h4><p>Tracer la courbe des dépenses mensuelles (<code>budget_mensuel.csv</code>) avec un titre et une couleur.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+import matplotlib.pyplot as plt
+
+budget = pandas.read_csv("data/budget_mensuel.csv", sep=";")
+budget.plot.line(x="Mois", y="Depenses", title="Dépenses mensuelles (DT)", color="firebrick")
+plt.show()</code></pre><figure><img src="assets/img/ch6_exo1.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+</div></details>
+<div class="prof"><p>Barème (4 points) : lecture 1 ; plot.line avec x et y 1,5 ; titre et couleur 1 ; plt.show() 0,5.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3 – problème</span>Exercice 2</h4><p>Dans <code>employes.xlsx</code>, calculer le salaire moyen par service. Représenter ce résultat par des barres.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+import matplotlib.pyplot as plt
+
+emp = pandas.read_excel("data/employes.xlsx", "Employes")
+moyen = emp.groupby(["Service"])["Salaire"].mean().reset_index()
+moyen.plot.bar(x="Service", y="Salaire", title="Salaire moyen par service (DT)", color="seagreen", rot=20)
+plt.show()</code></pre><figure><img src="assets/img/ch6_exo2.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+<p>Le résultat de <code>groupby</code> doit devenir un DataFrame (<code>reset_index()</code>) pour pouvoir écrire <code>x="Service"</code>.</p>
+</div></details>
+</div>
+<h2>Auto-évaluation</h2>
+<div class="qcm" data-id="c6"><div class="q"><p>Pour comparer les ventes de plusieurs produits, on choisit :</p><label><input type="radio"> Une courbe</label><label data-ok="1"><input type="radio"> Un graphique à barres</label><label><input type="radio"> Un tableau vide</label><label><input type="radio"> Aucun graphique</label><div class="explication">Les barres comparent des catégories.</div></div><div class="q"><p>Pour suivre les recettes mois par mois :</p><label><input type="radio"> plot.bar uniquement</label><label data-ok="1"><input type="radio"> plot.line</label><label><input type="radio"> df.head</label><label><input type="radio"> df.drop</label><div class="explication">Une courbe montre une évolution.</div></div><div class="q"><p>Quelle instruction affiche le graphique ?</p><label><input type="radio"> plt.draw_all()</label><label data-ok="1"><input type="radio"> plt.show()</label><label><input type="radio"> df.show()</label><label><input type="radio"> print(plt)</label><div class="explication"><code>plt.show()</code> affiche.</div></div><div class="q"><p>Quel paramètre donne le titre ?</p><label><input type="radio"> name</label><label data-ok="1"><input type="radio"> title</label><label><input type="radio"> label</label><label><input type="radio"> heading</label><div class="explication">On écrit <code>title="..."</code>.</div></div><div class="q"><p>Quel paramètre choisit les valeurs de l'axe horizontal ?</p><label data-ok="1"><input type="radio"> x</label><label><input type="radio"> y</label><label><input type="radio"> color</label><label><input type="radio"> title</label><div class="explication"><code>x</code> pour l'axe horizontal, <code>y</code> pour l'axe vertical.</div></div><button type="button" class="btn qcm-verifier">Corriger</button> <div class="qcm-resultat" role="status"></div></div><div class="nav-chap"><a class="btn sec" href="chapitre-5.html">Précédent : Chapitre 5</a><span></span></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

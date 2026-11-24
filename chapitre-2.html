@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapitre 2 – Créer, importer et manipuler un DataFrame – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Chapitre 2 – Créer, importer et manipuler un DataFrame</h1>
+<p class="sous-titre">Durée indicative : 3 séances</p>
+<div class="boite objectifs"><strong>Objectifs</strong><ul><li>Créer un DataFrame à partir d'un dictionnaire.</li><li>Importer des données depuis un fichier csv ou xlsx.</li><li>Afficher les informations d'un DataFrame : <code>shape</code>, <code>size</code>, <code>info()</code>, <code>columns</code>.</li><li>Renommer des colonnes, supprimer des lignes et des colonnes.</li></ul></div>
+<div class="boite objectifs"><strong>Prérequis</strong><ul><li>Chapitre 1.</li><li>Dictionnaires et listes en Python.</li></ul></div>
+<h2>1. Créer un DataFrame</h2>
+<p>On écrit un dictionnaire. Chaque <b>clé</b> est le nom d'une colonne. Chaque <b>valeur</b> est la liste des données de cette colonne.</p>
+<pre><code>import pandas
+
+cahiers = pandas.DataFrame({
+    "Produit": ["Cahier", "Stylo", "Classeur"],
+    "Quantite": [10, 25, 8],
+    "PrixUnitaire": [3, 1, 6]
+})
+print(cahiers)</code></pre><div class="sortie">    Produit  Quantite  PrixUnitaire
+0    Cahier        10             3
+1     Stylo        25             1
+2  Classeur         8             6</div>
+<div class="boite attention"><strong>Erreur fréquente</strong><p>Toutes les listes doivent avoir la <b>même longueur</b>. Sinon pandas affiche une erreur <code>ValueError</code>.</p></div>
+<h2>2. Importer des données</h2>
+<h3>Depuis un fichier csv</h3>
+<pre><code>df = pandas.read_csv("data/ventes.csv", sep=";")
+print(df.head())</code></pre><div class="sortie">   Id     Produit     Categorie  Region  Quantite  PrixUnitaire
+0   1  Imprimante  Informatique  Sousse         3           380
+1   2      Chaise      Mobilier   Tunis         1           150
+2   3     Armoire      Mobilier  Sousse         5           560
+3   4    Classeur     Papeterie  Sousse        10             6
+4   5      Bureau      Mobilier    Sfax         5           420</div>
+<h3>Depuis un fichier xlsx</h3>
+<p>On indique le nom du fichier, puis le nom de la <b>feuille</b>.</p>
+<pre><code>employes = pandas.read_excel("data/employes.xlsx", "Employes")
+print(employes.head())</code></pre><div class="sortie">   Matricule     Nom              Service  Salaire  Anciennete    Ville
+0        101    Amal               Ventes     1300           2    Tunis
+1        102   Bilel  Ressources humaines     2400           5  Bizerte
+2        103  Chiraz               Ventes     1250          15  Bizerte
+3        104    Dhia         Informatique     2650          13   Sousse
+4        105    Emna  Ressources humaines     2150          14     Sfax</div>
+<div class="boite attention"><strong>Chemin du fichier</strong><p><code>data/ventes.csv</code> est un chemin <b>relatif</b>. Il fonctionne si le programme est lancé depuis le dossier du projet. Sinon, indiquer le chemin complet.</p></div>
+<h2>3. Connaître son DataFrame</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Besoin</th><th>Instruction</th></tr></thead><tbody><tr><td>Dimensions (lignes, colonnes)</td><td><code>df.shape</code></td></tr><tr><td>Nombre total d'éléments</td><td><code>df.size</code></td></tr><tr><td>Types et valeurs non nulles</td><td><code>df.info()</code></td></tr><tr><td>Noms des colonnes</td><td><code>df.columns</code></td></tr></tbody></table></div>
+<pre><code>print(df.shape)
+print(df.size)
+print(df.columns)</code></pre><div class="sortie">(24, 6)
+144
+Index(['Id', 'Produit', 'Categorie', 'Region', 'Quantite', 'PrixUnitaire'], dtype='str')</div>
+<p>Ici, 24 lignes × 6 colonnes donnent <code>size</code> = 144 éléments.</p>
+<pre><code>df.info()</code></pre><div class="sortie">&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 24 entries, 0 to 23
+Data columns (total 6 columns):
+ #   Column        Non-Null Count  Dtype
+---  ------        --------------  -----
+ 0   Id            24 non-null     int64
+ 1   Produit       24 non-null     str  
+ 2   Categorie     24 non-null     str  
+ 3   Region        24 non-null     str  
+ 4   Quantite      24 non-null     int64
+ 5   PrixUnitaire  24 non-null     int64
+dtypes: int64(3), str(3)
+memory usage: 1.3 KB</div>
+<div class="boite definition"><strong>Lire info()</strong><ul><li><b>Non-Null Count</b> : nombre de cases remplies dans la colonne.</li><li><b>Dtype</b> : type des données (<code>int64</code> entiers, <code>float64</code> décimaux, texte).</li></ul></div>
+<h2>4. Renommer des colonnes</h2>
+<pre><code>resultat = df.rename(columns={"PrixUnitaire": "Prix", "Quantite": "Qte"})
+print(resultat.columns)
+print(df.columns)</code></pre><div class="sortie">Index(['Id', 'Produit', 'Categorie', 'Region', 'Qte', 'Prix'], dtype='str')
+Index(['Id', 'Produit', 'Categorie', 'Region', 'Quantite', 'PrixUnitaire'], dtype='str')</div>
+<div class="boite attention"><strong>Le DataFrame d'origine ne change pas</strong><p><code>rename</code> et <code>drop</code> <b>renvoient un nouveau</b> DataFrame. Le premier <code>print</code> montre les nouveaux noms, le second montre que <code>df</code> est resté identique. Pour garder le changement, on écrit <code>df = df.rename(...)</code>.</p></div>
+<h2>5. Supprimer des lignes et des colonnes</h2>
+<h3>Supprimer des lignes</h3>
+<p>On donne la liste des numéros d'index à supprimer.</p>
+<pre><code>sans_lignes = df.drop([0, 1, 2])
+print(sans_lignes.shape)
+print(sans_lignes.head(3))</code></pre><div class="sortie">(21, 6)
+   Id   Produit     Categorie  Region  Quantite  PrixUnitaire
+3   4  Classeur     Papeterie  Sousse        10             6
+4   5    Bureau      Mobilier    Sfax         5           420
+5   6    Souris  Informatique  Sousse         1            25</div>
+<h3>Supprimer des lignes consécutives</h3>
+<pre><code>debut = df.drop(df.index[10:24])
+print(debut.shape)</code></pre><div class="sortie">(10, 6)</div>
+<div class="boite attention"><strong>Bornes</strong><p><code>df.index[10:24]</code> prend les index de 10 à 23. La borne finale (24) est <b>exclue</b>. Il reste donc les 10 premières lignes.</p></div>
+<h3>Supprimer des colonnes</h3>
+<pre><code>sans_id = df.drop(columns=["Id"])
+print(sans_id.columns)</code></pre><div class="sortie">Index(['Produit', 'Categorie', 'Region', 'Quantite', 'PrixUnitaire'], dtype='str')</div>
+<div class="boite retenir"><strong>À retenir</strong><ul><li><code>pandas.DataFrame({...})</code> crée un DataFrame.</li><li><code>read_csv(fichier, sep=...)</code> et <code>read_excel(fichier, feuille)</code> importent.</li><li><code>shape</code>, <code>size</code>, <code>info()</code>, <code>columns</code> décrivent le tableau.</li><li><code>rename</code> et <code>drop</code> renvoient un nouveau DataFrame.</li></ul></div>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Action</th><th>Syntaxe</th></tr></thead><tbody><tr><td>Renommer</td><td><code>df.rename(columns={"Ancien": "Nouveau"})</code></td></tr><tr><td>Supprimer des lignes</td><td><code>df.drop([0, 3])</code></td></tr><tr><td>Lignes consécutives</td><td><code>df.drop(df.index[a:b])</code></td></tr><tr><td>Supprimer des colonnes</td><td><code>df.drop(columns=["A", "B"])</code></td></tr></tbody></table></div>
+<h2 id="exercices">Exercices</h2>
+<div class="exo"><h4><span class="niveau n1">Niveau 1 – application</span>Exercice 1</h4><p>Lire la feuille <code>Employes</code> du fichier <code>data/employes.xlsx</code>. Afficher les dimensions et les noms des colonnes.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+emp = pandas.read_excel("data/employes.xlsx", "Employes")
+print(emp.shape)
+print(emp.columns)</code></pre><div class="sortie">(15, 6)
+Index(['Matricule', 'Nom', 'Service', 'Salaire', 'Anciennete', 'Ville'], dtype='str')</div>
+</div></details>
+<div class="prof"><p>Barème (3 points) : lecture 1,5 ; shape 0,75 ; columns 0,75. Erreur attendue : oubli de la feuille ou du module openpyxl.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2 – entraînement</span>Exercice 2</h4><p>Lire <code>data/ventes.csv</code>. Renommer <code>PrixUnitaire</code> en <code>Prix</code> et <code>Quantite</code> en <code>Qte</code>. Supprimer la colonne <code>Id</code>. Afficher les 3 premières lignes.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+df = df.rename(columns={"PrixUnitaire": "Prix", "Quantite": "Qte"})
+df = df.drop(columns=["Id"])
+print(df.head(3))</code></pre><div class="sortie">      Produit     Categorie  Region  Qte  Prix
+0  Imprimante  Informatique  Sousse    3   380
+1      Chaise      Mobilier   Tunis    1   150
+2     Armoire      Mobilier  Sousse    5   560</div>
+<p>Chaque étape est réaffectée à <code>df</code> pour conserver le résultat.</p>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3 – problème</span>Exercice 3</h4><p>Lire <code>data/ventes.csv</code>. Garder seulement les 5 premières lignes en supprimant les autres lignes consécutives. Puis supprimer les lignes d'index 0 et 2. Afficher le résultat.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+df = df.drop(df.index[5:24])
+df = df.drop([0, 2])
+print(df)</code></pre><div class="sortie">   Id   Produit  Categorie  Region  Quantite  PrixUnitaire
+1   2    Chaise   Mobilier   Tunis         1           150
+3   4  Classeur  Papeterie  Sousse        10             6
+4   5    Bureau   Mobilier    Sfax         5           420</div>
+<p>Après la première suppression, il reste les index 0 à 4. Après la seconde, il reste les index 1, 3 et 4 : <b>l'index n'est pas renuméroté</b>.</p>
+</div></details>
+</div>
+<h2>Auto-évaluation</h2>
+<div class="qcm" data-id="c2"><div class="q"><p>Comment crée-t-on un DataFrame à la main ?</p><label data-ok="1"><input type="radio"> Avec un dictionnaire de listes</label><label><input type="radio"> Avec un seul entier</label><label><input type="radio"> Avec read_csv sans fichier</label><label><input type="radio"> Avec shape</label><div class="explication">Les clés du dictionnaire deviennent les noms des colonnes.</div></div><div class="q"><p>Quelle instruction supprime la colonne « Id » ?</p><label data-ok="1"><input type="radio"> df.drop(columns=["Id"])</label><label><input type="radio"> df.drop("Id")</label><label><input type="radio"> df.remove("Id")</label><label><input type="radio"> df.delete(Id)</label><div class="explication">On utilise <code>drop</code> avec le paramètre <code>columns</code>.</div></div><div class="q"><p>Après <code>r = df.rename(...)</code>, que devient <code>df</code> ?</p><label><input type="radio"> Il est modifié</label><label><input type="radio"> Il est supprimé</label><label data-ok="1"><input type="radio"> Il reste identique</label><label><input type="radio"> Il devient vide</label><div class="explication"><code>rename</code> renvoie un nouveau DataFrame.</div></div><div class="q"><p><code>df.drop(df.index[2:5])</code> supprime les lignes d'index :</p><label><input type="radio"> 2, 3, 4, 5</label><label data-ok="1"><input type="radio"> 2, 3, 4</label><label><input type="radio"> 3, 4, 5</label><label><input type="radio"> 2 et 5</label><div class="explication">La borne finale est exclue.</div></div><div class="q"><p>Pour lire une feuille Excel, on utilise :</p><label><input type="radio"> read_csv</label><label data-ok="1"><input type="radio"> read_excel</label><label><input type="radio"> read_sheet</label><label><input type="radio"> open_excel</label><div class="explication"><code>read_excel(fichier, feuille)</code>.</div></div><button type="button" class="btn qcm-verifier">Corriger</button> <div class="qcm-resultat" role="status"></div></div><div class="nav-chap"><a class="btn sec" href="chapitre-1.html">Précédent : Chapitre 1</a><a class="btn" href="chapitre-3.html">Suivant : Chapitre 3</a></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

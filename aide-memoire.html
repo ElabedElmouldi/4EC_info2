@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aide-mémoire des syntaxes pandas – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html" aria-current="page">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Aide-mémoire des syntaxes pandas</h1>
+<p class="sous-titre">Toutes les méthodes du programme, avec un exemple</p>
+<p>Dans les tableaux, <code>df</code> est un DataFrame. Pour garder le résultat d'une méthode qui renvoie un nouveau DataFrame, on écrit <code>df = df.méthode(...)</code>.</p>
+<h2>Création et importation</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Besoin</th><th>Syntaxe</th></tr></thead><tbody><tr><td>Créer un DataFrame</td><td><code>pandas.DataFrame({"Col1": [...], "Col2": [...]})</code></td></tr><tr><td>Lire un csv</td><td><code>pandas.read_csv("data/ventes.csv", sep=";")</code></td></tr><tr><td>Lire un xlsx</td><td><code>pandas.read_excel("data/employes.xlsx", "Employes")</code></td></tr></tbody></table></div>
+<h2>Manipulation</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Besoin</th><th>Syntaxe</th></tr></thead><tbody><tr><td>Dimensions / nombre d'éléments</td><td><code>df.shape</code> / <code>df.size</code></td></tr><tr><td>Informations</td><td><code>df.info()</code></td></tr><tr><td>Noms des colonnes</td><td><code>df.columns</code></td></tr><tr><td>Renommer</td><td><code>df.rename(columns={"A": "B"})</code></td></tr><tr><td>Supprimer des lignes</td><td><code>df.drop([0, 3])</code></td></tr><tr><td>Lignes consécutives</td><td><code>df.drop(df.index[a:b])</code></td></tr><tr><td>Supprimer des colonnes</td><td><code>df.drop(columns=["A", "B"])</code></td></tr></tbody></table></div>
+<h2>Affichage</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Besoin</th><th>Syntaxe</th></tr></thead><tbody><tr><td>Une colonne / plusieurs</td><td><code>df["A"]</code> / <code>df[["A", "B"]]</code></td></tr><tr><td>Une colonne entre deux positions</td><td><code>df["A"][a:b]</code> (b exclu)</td></tr><tr><td>Une ligne</td><td><code>df.loc[n]</code></td></tr><tr><td>n premières / dernières lignes</td><td><code>df.head(n)</code> / <code>df.tail(n)</code></td></tr><tr><td>Plage de lignes</td><td><code>df.loc[a:b]</code> (b inclus)</td></tr><tr><td>Lignes non consécutives</td><td><code>df.loc[[n1, n2]]</code></td></tr><tr><td>Une cellule</td><td><code>df.loc[n, "A"]</code></td></tr></tbody></table></div>
+<h2>Modification et nettoyage</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Besoin</th><th>Syntaxe</th></tr></thead><tbody><tr><td>Modifier une cellule</td><td><code>df.loc[n, "A"] = valeur</code></td></tr><tr><td>Ajouter / modifier une ligne</td><td><code>df.loc[n] = [v1, v2, …]</code></td></tr><tr><td>Ajouter une colonne</td><td><code>df["C"] = df["A"] * df["B"]</code></td></tr><tr><td>Doublons</td><td><code>df.drop_duplicates()</code></td></tr><tr><td>Lignes avec valeur nulle</td><td><code>df.dropna()</code></td></tr><tr><td>Colonnes avec valeur nulle</td><td><code>df.dropna(axis=1)</code></td></tr></tbody></table></div>
+<h2>Calculs, filtres et tris</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Besoin</th><th>Syntaxe</th></tr></thead><tbody><tr><td>Statistiques</td><td><code>df["A"].mean()</code>, <code>min()</code>, <code>max()</code>, <code>sum()</code>, <code>count()</code></td></tr><tr><td>Regrouper</td><td><code>df.groupby(["A"])["B"].sum()</code></td></tr><tr><td>Une condition</td><td><code>df[df["A"] == valeur]</code></td></tr><tr><td>Opérateurs</td><td><code>==  &lt;  &lt;=  &gt;  &gt;=  !=  isin</code></td></tr><tr><td>Plusieurs conditions</td><td><code>df[(df["A"] &gt; 1) &amp; (df["B"] == "x")]</code> ; OU : <code>|</code></td></tr><tr><td>Trier</td><td><code>df.sort_values(by=["A", "B"], ascending=[True, False])</code></td></tr></tbody></table></div>
+<h2>Graphiques</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Besoin</th><th>Syntaxe</th></tr></thead><tbody><tr><td>Barres</td><td><code>df.plot.bar(x="A", y="B", title="Titre", color="teal")</code></td></tr><tr><td>Courbe</td><td><code>df.plot.line(x="A", y="B", title="Titre", color="darkblue")</code></td></tr><tr><td>Afficher</td><td><code>import matplotlib.pyplot as plt</code> puis <code>plt.show()</code></td></tr></tbody></table></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

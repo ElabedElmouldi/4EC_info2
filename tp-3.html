@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TP 3 – Analyser les salaires d'une entreprise – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>TP 3 – Analyser les salaires d'une entreprise</h1>
+<p class="sous-titre">Chapitre 5 – durée : 2 h – niveau 2 et 3</p>
+<div class="boite objectifs"><strong>Objectif</strong><p>Calculer des statistiques, regrouper, filtrer et trier pour répondre à des questions de gestion.</p></div>
+<div class="boite objectifs"><strong>Matériel</strong><p>Fichier <code>data/employes.xlsx</code>, feuille <code>Employes</code> : 15 employés fictifs.</p></div>
+<h2>Travail demandé</h2><ol><li>Lire la feuille <code>Employes</code> et afficher les 5 premières lignes.</li><li>Calculer le salaire moyen, minimum, maximum et la masse salariale (somme).</li><li>Calculer le salaire moyen par service.</li><li>Calculer le nombre d'employés par ville.</li><li>Afficher les employés du service Informatique.</li><li>Afficher les employés dont le salaire est supérieur à 2000 <b>et</b> l'ancienneté inférieure ou égale à 10 ans.</li><li>Afficher les employés habitant Tunis <b>ou</b> Sfax.</li><li>Trier les employés par ancienneté décroissante.</li><li>Ajouter la colonne <code>Prime</code> égale à 5 % du salaire et afficher le nom, le salaire et la prime des 5 premiers.</li></ol>
+<p><b>Interprétation :</b> rédiger deux phrases qui résument ce que l'analyse apprend à la direction des ressources humaines.</p>
+<details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+emp = pandas.read_excel("data/employes.xlsx", "Employes")
+print(emp.head())
+print(emp["Salaire"].mean(), emp["Salaire"].min(), emp["Salaire"].max(), emp["Salaire"].sum())
+print(emp.groupby(["Service"])["Salaire"].mean())
+print(emp.groupby(["Ville"])["Nom"].count())
+print(emp[emp["Service"] == "Informatique"])
+print(emp[(emp["Salaire"] &gt; 2000) &amp; (emp["Anciennete"] &lt;= 10)])
+print(emp[emp["Ville"].isin(["Tunis", "Sfax"])])
+print(emp.sort_values(by=["Anciennete"], ascending=[False]).head())
+emp["Prime"] = emp["Salaire"] * 0.05
+print(emp[["Nom", "Salaire", "Prime"]].head())</code></pre><div class="sortie">   Matricule     Nom              Service  Salaire  Anciennete    Ville
+0        101    Amal               Ventes     1300           2    Tunis
+1        102   Bilel  Ressources humaines     2400           5  Bizerte
+2        103  Chiraz               Ventes     1250          15  Bizerte
+3        104    Dhia         Informatique     2650          13   Sousse
+4        105    Emna  Ressources humaines     2150          14     Sfax
+2050.0 1100 2950 30750
+Service
+Informatique           2050.000000
+Ressources humaines    2116.666667
+Ventes                 1950.000000
+Name: Salaire, dtype: float64
+Ville
+Bizerte    8
+Sfax       1
+Sousse     3
+Tunis      3
+Name: Nom, dtype: int64
+    Matricule     Nom       Service  Salaire  Anciennete    Ville
+3         104    Dhia  Informatique     2650          13   Sousse
+5         106   Firas  Informatique     1750           1    Tunis
+10        111  Khaled  Informatique     2350           4  Bizerte
+11        112    Lina  Informatique     2300           6  Bizerte
+13        114    Nour  Informatique     1200           7  Bizerte
+    Matricule      Nom              Service  Salaire  Anciennete    Ville
+1         102    Bilel  Ressources humaines     2400           5  Bizerte
+7         108    Hatem  Ressources humaines     2050           7   Sousse
+9         110   Jawher  Ressources humaines     2650           2   Sousse
+10        111   Khaled         Informatique     2350           4  Bizerte
+11        112     Lina         Informatique     2300           6  Bizerte
+14        115  Oussama               Ventes     2300           1    Tunis
+    Matricule      Nom              Service  Salaire  Anciennete  Ville
+0         101     Amal               Ventes     1300           2  Tunis
+4         105     Emna  Ressources humaines     2150          14   Sfax
+5         106    Firas         Informatique     1750           1  Tunis
+14        115  Oussama               Ventes     2300           1  Tunis
+   Matricule     Nom              Service  Salaire  Anciennete    Ville
+6        107   Ghada               Ventes     2950          20  Bizerte
+8        109    Ines  Ressources humaines     2350          17  Bizerte
+2        103  Chiraz               Ventes     1250          15  Bizerte
+4        105    Emna  Ressources humaines     2150          14     Sfax
+3        104    Dhia         Informatique     2650          13   Sousse
+      Nom  Salaire  Prime
+0    Amal     1300   65.0
+1   Bilel     2400  120.0
+2  Chiraz     1250   62.5
+3    Dhia     2650  132.5
+4    Emna     2150  107.5</div>
+</div></details>
+<div class="prof"><p>L'interprétation est personnelle. Accepter toute réponse qui s'appuie sur un chiffre lu dans les résultats (par exemple le service au salaire moyen le plus élevé). Refuser une phrase sans chiffre.</p></div>
+<div class="prof"><p><b>Grille d'évaluation (sur 20)</b></p><ul><li>Lecture et statistiques : 4 pts</li><li>groupby : 4 pts</li><li>Filtres simples et multiples : 5 pts</li><li>Tri et colonne calculée : 4 pts</li><li>Interprétation chiffrée : 3 pts</li></ul></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TP 4 – Construire un petit tableau de bord – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>TP 4 – Construire un petit tableau de bord</h1>
+<p class="sous-titre">Chapitre 6 – durée : 2 h – niveau 3 et 4</p>
+<div class="boite objectifs"><strong>Objectif</strong><p>Analyser un budget mensuel et le présenter avec des graphiques clairs.</p></div>
+<div class="boite objectifs"><strong>Matériel</strong><p>Fichiers <code>data/budget_mensuel.csv</code> (12 mois, recettes et dépenses en DT, fictifs) et <code>data/ventes.csv</code>.</p></div>
+<h2>Travail demandé</h2><ol><li>Lire <code>budget_mensuel.csv</code>. Ajouter la colonne <code>Solde</code> (recettes moins dépenses).</li><li>Afficher le mois du solde le plus élevé (tri décroissant, première ligne).</li><li>Tracer la courbe des recettes, avec titre et couleur.</li><li>Tracer des barres du solde du premier semestre (6 premières lignes).</li><li>Calculer les quantités vendues par région dans <code>ventes.csv</code> et les représenter par des barres.</li></ol>
+<p><b>Niveau 4 (maîtrise) :</b> tracer sur un même graphique les recettes et les dépenses (<code>y=["Recettes", "Depenses"]</code>) et commenter l'évolution.</p>
+<details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+import matplotlib.pyplot as plt
+
+budget = pandas.read_csv("data/budget_mensuel.csv", sep=";")
+budget["Solde"] = budget["Recettes"] - budget["Depenses"]
+meilleur = budget.sort_values(by=["Solde"], ascending=[False])
+print(meilleur.head(1))
+budget.plot.line(x="Mois", y="Recettes", title="Recettes mensuelles (DT)", color="darkblue")
+plt.show()</code></pre><figure><img src="assets/img/tp4_recettes.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+</div></details>
+<details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+import matplotlib.pyplot as plt
+
+budget = pandas.read_csv("data/budget_mensuel.csv", sep=";")
+budget["Solde"] = budget["Recettes"] - budget["Depenses"]
+budget.head(6).plot.bar(x="Mois", y="Solde", title="Solde du premier semestre (DT)", color="seagreen", rot=30)
+plt.show()</code></pre><figure><img src="assets/img/tp4_solde.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+</div></details>
+<details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+import matplotlib.pyplot as plt
+
+ventes = pandas.read_csv("data/ventes.csv", sep=";")
+par_region = ventes.groupby(["Region"])["Quantite"].sum().reset_index()
+par_region.plot.bar(x="Region", y="Quantite", title="Quantités vendues par région", color="orange", rot=0)
+plt.show()</code></pre><figure><img src="assets/img/tp4_regions.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+</div></details>
+<details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+import matplotlib.pyplot as plt
+
+budget = pandas.read_csv("data/budget_mensuel.csv", sep=";")
+budget.plot.line(x="Mois", y=["Recettes", "Depenses"], title="Recettes et dépenses (DT)")
+plt.show()</code></pre><figure><img src="assets/img/tp4_deux_courbes.png" alt="Graphique obtenu avec le code ci-dessus" width="560" loading="lazy"><figcaption>Figure obtenue en exécutant le code ci-dessus.</figcaption></figure>
+</div></details>
+<div class="prof"><p>Pour le commentaire de niveau 4, accepter une phrase qui compare les deux courbes avec au moins un mois cité. Les options <code>reset_index()</code> et <code>y=[...]</code> dépassent le tableau des syntaxes : les présenter comme extension.</p></div>
+<div class="prof"><p><b>Grille d'évaluation (sur 20)</b></p><ul><li>Solde et tri : 4 pts</li><li>Courbe : 4 pts</li><li>Barres : 4 pts</li><li>Groupby + graphique : 4 pts</li><li>Niveau 4 et commentaire : 4 pts</li></ul></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

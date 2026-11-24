@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapitre 5 – Calculer, filtrer et trier – Analyse de données avec pandas – 4ème Éco</title>
+<meta name="description" content="Cours d'analyse de données avec Python (pandas, matplotlib), 4ème Économie et Gestion, 2026/2027, proposé par Elabed Elmouldi.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<header class="site"><div class="barre">
+<a class="marque" href="index.html">Analyse de données avec pandas<small>4ème Économie et Gestion – 2026/2027</small></a>
+<button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav class="menu" id="menu" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="cours.html">Cours</a><a href="tp.html">TP</a><a href="exercices.html">Exercices</a><a href="evaluations.html">Évaluations</a><a href="simulateur.html">Simulateur</a><a href="aide-memoire.html">Aide-mémoire</a><a href="a-propos.html">À propos</a>
+<button id="btn-prof" type="button" aria-pressed="false" title="Afficher les barèmes et remarques pour l'enseignant">Mode professeur</button></nav>
+</div></header>
+<div class="conteneur avec-toc" id="contenu">
+<aside class="toc" aria-label="Sommaire de la page"><strong>Dans cette page</strong><ul id="toc-liste"></ul></aside>
+<main class="">
+<h1>Chapitre 5 – Calculer, filtrer et trier</h1>
+<p class="sous-titre">Durée indicative : 3 séances</p>
+<div class="boite objectifs"><strong>Objectifs</strong><ul><li>Calculer une moyenne, un minimum, un maximum, une somme, un effectif.</li><li>Regrouper les données avec <code>groupby</code>.</li><li>Filtrer selon une ou plusieurs conditions.</li><li>Trier selon un ou plusieurs critères.</li></ul></div>
+<div class="boite objectifs"><strong>Prérequis</strong><ul><li>Chapitres 2 à 4.</li><li>Opérateurs de comparaison et opérateurs logiques.</li></ul></div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+df["Montant"] = df["Quantite"] * df["PrixUnitaire"]
+print(df.head(3))</code></pre><div class="sortie">   Id     Produit     Categorie  Region  Quantite  PrixUnitaire  Montant
+0   1  Imprimante  Informatique  Sousse         3           380     1140
+1   2      Chaise      Mobilier   Tunis         1           150      150
+2   3     Armoire      Mobilier  Sousse         5           560     2800</div>
+<h2>1. Les fonctions statistiques</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Fonction</th><th>Rôle</th></tr></thead><tbody><tr><td><code>mean()</code></td><td>Moyenne</td></tr><tr><td><code>min()</code></td><td>Plus petite valeur</td></tr><tr><td><code>max()</code></td><td>Plus grande valeur</td></tr><tr><td><code>sum()</code></td><td>Somme</td></tr><tr><td><code>count()</code></td><td>Nombre de valeurs non nulles</td></tr></tbody></table></div>
+<pre><code>print(df["Quantite"].sum())
+print(df["Quantite"].mean())
+print(df["PrixUnitaire"].min())
+print(df["PrixUnitaire"].max())
+print(df["Produit"].count())</code></pre><div class="sortie">85
+3.5416666666666665
+1
+560
+24</div>
+<h2>2. Regrouper avec groupby</h2>
+<p><code>groupby</code> forme un groupe par valeur d'une colonne. Puis on applique une fonction à une autre colonne. Comme dans un tableau croisé dynamique, il faut préciser <b>quoi regrouper</b> et <b>quoi calculer</b>.</p>
+<pre><code>print(df.groupby(["Region"])["Quantite"].sum())</code></pre><div class="sortie">Region
+Sfax      34
+Sousse    40
+Tunis     11
+Name: Quantite, dtype: int64</div>
+<pre><code>print(df.groupby(["Categorie"])["Montant"].mean())</code></pre><div class="sortie">Categorie
+Informatique     917.000000
+Mobilier        1331.538462
+Papeterie         19.500000
+Name: Montant, dtype: float64</div>
+<pre><code>print(df.groupby(["Region"])["Produit"].count())</code></pre><div class="sortie">Region
+Sfax       9
+Sousse    11
+Tunis      4
+Name: Produit, dtype: int64</div>
+<div class="boite attention"><strong>Toujours désigner la colonne à calculer</strong><p>Écrire <code>df.groupby(["Region"]).sum()</code> sans choisir de colonne mélange des colonnes de texte et des nombres. Le résultat est difficile à lire. Choisir la colonne : <code>df.groupby(["Region"])["Quantite"].sum()</code>.</p></div>
+<h2>3. Filtrer selon une condition</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Opérateur</th><th>Signification</th></tr></thead><tbody><tr><td><code>==</code></td><td>égal à</td></tr><tr><td><code>!=</code></td><td>différent de</td></tr><tr><td><code>&lt;</code>  <code>&lt;=</code></td><td>inférieur, inférieur ou égal</td></tr><tr><td><code>&gt;</code>  <code>&gt;=</code></td><td>supérieur, supérieur ou égal</td></tr><tr><td><code>isin</code></td><td>appartient à une liste</td></tr></tbody></table></div>
+<pre><code>print(df[df["Region"] == "Sfax"])</code></pre><div class="sortie">    Id     Produit     Categorie Region  Quantite  PrixUnitaire  Montant
+4    5      Bureau      Mobilier   Sfax         5           420     2100
+6    7  Imprimante  Informatique   Sfax         1           380      380
+9   10    Classeur     Papeterie   Sfax         5             6       30
+13  14      Chaise      Mobilier   Sfax         3           150      450
+16  17       Stylo     Papeterie   Sfax         6             1        6
+17  18    Classeur     Papeterie   Sfax         2             6       12
+18  19     Armoire      Mobilier   Sfax         5           560     2800
+20  21     Armoire      Mobilier   Sfax         4           560     2240
+21  22      Chaise      Mobilier   Sfax         3           150      450</div>
+<pre><code>print(df[df["Region"].isin(["Sfax", "Tunis"])].shape)</code></pre><div class="sortie">(13, 7)</div>
+<div class="boite attention"><strong>== et =</strong><p><code>=</code> affecte une valeur. <code>==</code> compare deux valeurs. Dans un filtre, on écrit toujours <code>==</code>.</p></div>
+<h2>4. Filtrer selon plusieurs conditions</h2>
+<div class="tableau-defile"><table class="t"><thead><tr><th>Opérateur</th><th>Nom</th><th>Rôle</th></tr></thead><tbody><tr><td><code>&amp;</code></td><td>ET</td><td>Toutes les conditions sont vraies</td></tr><tr><td><code>|</code></td><td>OU</td><td>Au moins une condition est vraie</td></tr></tbody></table></div>
+<pre><code>print(df[(df["Region"] == "Sfax") &amp; (df["Quantite"] &gt;= 3)])</code></pre><div class="sortie">    Id   Produit  Categorie Region  Quantite  PrixUnitaire  Montant
+4    5    Bureau   Mobilier   Sfax         5           420     2100
+9   10  Classeur  Papeterie   Sfax         5             6       30
+13  14    Chaise   Mobilier   Sfax         3           150      450
+16  17     Stylo  Papeterie   Sfax         6             1        6
+18  19   Armoire   Mobilier   Sfax         5           560     2800
+20  21   Armoire   Mobilier   Sfax         4           560     2240
+21  22    Chaise   Mobilier   Sfax         3           150      450</div>
+<pre><code>print(df[(df["Categorie"] == "Mobilier") | (df["PrixUnitaire"] &gt; 1000)].shape)</code></pre><div class="sortie">(13, 7)</div>
+<div class="boite attention"><strong>Parenthèses obligatoires</strong><p>Chaque condition est entre <b>parenthèses</b>. Sans parenthèses, Python lit mal l'expression et affiche une erreur.</p></div>
+<h2>5. Trier</h2>
+<p>On donne la liste des colonnes de tri et, pour chacune, <code>True</code> (croissant) ou <code>False</code> (décroissant).</p>
+<pre><code>tri = df.sort_values(by=["PrixUnitaire"], ascending=[False])
+print(tri[["Produit", "PrixUnitaire"]].head(5))</code></pre><div class="sortie">    Produit  PrixUnitaire
+2   Armoire           560
+20  Armoire           560
+22  Armoire           560
+15  Armoire           560
+18  Armoire           560</div>
+<h3>Tri sur deux critères</h3>
+<pre><code>tri2 = df.sort_values(by=["Region", "Montant"], ascending=[True, False])
+print(tri2[["Region", "Produit", "Montant"]].head(6))</code></pre><div class="sortie">   Region     Produit  Montant
+18   Sfax     Armoire     2800
+20   Sfax     Armoire     2240
+4    Sfax      Bureau     2100
+13   Sfax      Chaise      450
+21   Sfax      Chaise      450
+6    Sfax  Imprimante      380</div>
+<p>Les lignes sont d'abord classées par région (ordre alphabétique). Dans chaque région, par montant décroissant.</p>
+<div class="boite retenir"><strong>À retenir</strong><ul><li><code>df["Col"].sum()</code>, <code>mean()</code>, <code>min()</code>, <code>max()</code>, <code>count()</code>.</li><li><code>df.groupby(["A"])["B"].sum()</code> : regrouper par A, calculer sur B.</li><li>Condition : <code>df[df["A"] == v]</code>. Plusieurs conditions : parenthèses et <code>&amp;</code> ou <code>|</code>.</li><li><code>sort_values(by=[...], ascending=[...])</code> trie.</li></ul></div>
+<h2 id="exercices">Exercices</h2>
+<div class="exo"><h4><span class="niveau n1">Niveau 1 – application</span>Exercice 1</h4><p>Afficher la moyenne, la plus petite et la plus grande <code>Quantite</code> du fichier <code>ventes.csv</code>.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+print(df["Quantite"].mean())
+print(df["Quantite"].min())
+print(df["Quantite"].max())</code></pre><div class="sortie">3.5416666666666665
+1
+10</div>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2 – entraînement</span>Exercice 2</h4><p>Afficher les ventes de la région Sfax dont la quantité est supérieure ou égale à 5. Afficher aussi leur nombre.</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+sfax = df[(df["Region"] == "Sfax") &amp; (df["Quantite"] &gt;= 5)]
+print(sfax)
+print(sfax.shape[0])</code></pre><div class="sortie">    Id   Produit  Categorie Region  Quantite  PrixUnitaire
+4    5    Bureau   Mobilier   Sfax         5           420
+9   10  Classeur  Papeterie   Sfax         5             6
+16  17     Stylo  Papeterie   Sfax         6             1
+18  19   Armoire   Mobilier   Sfax         5           560
+4</div>
+<p>Le nombre de lignes du résultat se lit avec <code>shape[0]</code>.</p>
+</div></details>
+<div class="prof"><p>Barème (4 points) : condition région 1 ; condition quantité 1 ; opérateur & et parenthèses 1 ; nombre 1.</p></div>
+</div>
+<div class="exo"><h4><span class="niveau n2">Niveau 2 – entraînement</span>Exercice 3</h4><p>Ajouter la colonne <code>Montant</code>. Calculer le montant total par catégorie. Puis trier toutes les ventes par montant décroissant et afficher les 3 plus grosses ventes (produit et montant).</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+df = pandas.read_csv("data/ventes.csv", sep=";")
+df["Montant"] = df["Quantite"] * df["PrixUnitaire"]
+print(df.groupby(["Categorie"])["Montant"].sum())
+tri = df.sort_values(by=["Montant"], ascending=[False])
+print(tri[["Produit", "Montant"]].head(3))</code></pre><div class="sortie">Categorie
+Informatique     4585
+Mobilier        17310
+Papeterie         117
+Name: Montant, dtype: int64
+    Produit  Montant
+2   Armoire     2800
+18  Armoire     2800
+20  Armoire     2240</div>
+</div></details>
+</div>
+<div class="exo"><h4><span class="niveau n3">Niveau 3 – problème</span>Exercice 4</h4><p>Dans <code>employes.xlsx</code> : (a) calculer le salaire moyen par service ; (b) afficher les employés ayant plus de 10 ans d'ancienneté <b>et</b> un salaire inférieur à 2000 ; (c) trier tous les employés par service (croissant) puis par salaire (décroissant).</p><details><summary>Voir la correction</summary><div>
+<pre><code>import pandas
+
+emp = pandas.read_excel("data/employes.xlsx", "Employes")
+print(emp.groupby(["Service"])["Salaire"].mean())
+print(emp[(emp["Anciennete"] &gt; 10) &amp; (emp["Salaire"] &lt; 2000)])
+print(emp.sort_values(by=["Service", "Salaire"], ascending=[True, False])[["Nom", "Service", "Salaire"]])</code></pre><div class="sortie">Service
+Informatique           2050.000000
+Ressources humaines    2116.666667
+Ventes                 1950.000000
+Name: Salaire, dtype: float64
+   Matricule     Nom Service  Salaire  Anciennete    Ville
+2        103  Chiraz  Ventes     1250          15  Bizerte
+        Nom              Service  Salaire
+3      Dhia         Informatique     2650
+10   Khaled         Informatique     2350
+11     Lina         Informatique     2300
+5     Firas         Informatique     1750
+13     Nour         Informatique     1200
+9    Jawher  Ressources humaines     2650
+1     Bilel  Ressources humaines     2400
+8      Ines  Ressources humaines     2350
+4      Emna  Ressources humaines     2150
+7     Hatem  Ressources humaines     2050
+12    Mehdi  Ressources humaines     1100
+6     Ghada               Ventes     2950
+14  Oussama               Ventes     2300
+0      Amal               Ventes     1300
+2    Chiraz               Ventes     1250</div>
+<p>La question (b) demande deux conditions liées par <b>ET</b> : un seul employé les remplit (Chiraz). Si le fichier change, le résultat peut être vide : un tableau vide reste une réponse correcte.</p>
+</div></details>
+<div class="prof"><p>Barème (6 points) : (a) 2 ; (b) 2 ; (c) 2.</p></div>
+</div>
+<h2>Auto-évaluation</h2>
+<div class="qcm" data-id="c5"><div class="q"><p>Quelle instruction donne le total des quantités par région ?</p><label data-ok="1"><input type="radio"> df.groupby(["Region"])["Quantite"].sum()</label><label><input type="radio"> df["Region"].sum()</label><label><input type="radio"> df.sum(["Region"])</label><label><input type="radio"> df.group("Region")</label><div class="explication">On regroupe par région, puis on somme la colonne Quantite.</div></div><div class="q"><p>Pour deux conditions vraies en même temps, on utilise :</p><label><input type="radio"> |</label><label data-ok="1"><input type="radio"> &</label><label><input type="radio"> ==</label><label><input type="radio"> isin</label><div class="explication"><code>&amp;</code> est le ET logique.</div></div><div class="q"><p>Quelle écriture est correcte ?</p><label><input type="radio"> df[df["A"] > 1 & df["B"] < 5]</label><label data-ok="1"><input type="radio"> df[(df["A"] > 1) & (df["B"] < 5)]</label><label><input type="radio"> df[df["A"] > 1 and df["B"] < 5]</label><label><input type="radio"> df[(df["A"] > 1), (df["B"] < 5)]</label><div class="explication">Chaque condition est entre parenthèses.</div></div><div class="q"><p><code>ascending=[False]</code> donne un tri :</p><label><input type="radio"> Croissant</label><label data-ok="1"><input type="radio"> Décroissant</label><label><input type="radio"> Aléatoire</label><label><input type="radio"> Alphabétique seulement</label><div class="explication"><code>False</code> signifie décroissant.</div></div><div class="q"><p><code>df["Produit"].count()</code> compte :</p><label><input type="radio"> Les lignes vides</label><label data-ok="1"><input type="radio"> Les valeurs non nulles</label><label><input type="radio"> Les doublons</label><label><input type="radio"> Les colonnes</label><div class="explication"><code>count</code> ignore les valeurs nulles.</div></div><button type="button" class="btn qcm-verifier">Corriger</button> <div class="qcm-resultat" role="status"></div></div><div class="nav-chap"><a class="btn sec" href="chapitre-4.html">Précédent : Chapitre 4</a><a class="btn" href="chapitre-6.html">Suivant : Chapitre 6</a></div>
+</main>
+</div>
+<footer class="pied">Cours proposé par Elabed Elmouldi – 2026/2027 – 4ème Économie et Gestion<br>
+Jeux de données fictifs créés pour l'enseignement.</footer>
+<script src="js/app.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>
